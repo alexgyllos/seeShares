@@ -11,5 +11,5 @@ app.use(cors());
 MongoClient.connect('mongodb://localhost:27017')
 .then((client) => {
   const db = client.db('shares_db');
-  
+
 })
