@@ -12,4 +12,13 @@ MongoClient.connect('mongodb://localhost:27017')
 .then((client) => {
   const db = client.db('shares_db');
 
+  const sharesCollection = db.collection('shares');
+  const sharesRouter = createRouter(sharesCollection);
+  app.use('/api/shares', sharesRouter)
+
+})
+.catch(console.error);
+
+app.listen(3000, function () {
+  console.log('Its on!')
 })
