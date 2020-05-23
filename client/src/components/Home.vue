@@ -1,6 +1,9 @@
 <template lang="html">
   <div class="">
-    <p>{{totalValue}}</p>
+
+    <p>Total Current Shares Value: {{totalValue}}
+  </p>
+
   </div>
 </template>
 
