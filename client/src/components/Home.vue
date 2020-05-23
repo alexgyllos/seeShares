@@ -1,8 +1,7 @@
 <template lang="html">
   <div class="">
 
-    <p>
-    {{totalValue}}
+    <p>Total Current Shares Value: {{totalValue}}
   </p>
 
   </div>
@@ -42,14 +41,6 @@ export default {
   },
   computed: {
     totalValue(){
-      // const result = Object.entries(this.numberOfShares).forEach((share, value) => {
-      //   Object.entries(this.latestValue).forEach((k, v) => {
-      //     if (share === k) {
-      //       console.log( value * v['4. close'])
-      //     }
-      //   })
-      // })
-
       let total = 0
       Object.keys(this.numberOfShares).forEach((share) => {
         Object.keys(this.latestValue).forEach(key => {
