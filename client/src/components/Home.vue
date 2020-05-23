@@ -1,8 +1,6 @@
 <template lang="html">
   <div class="">
-    <p>
-    {{totalValue}}
-  </p>
+    <p>{{totalValue}}</p>
   </div>
 </template>
 
@@ -53,7 +51,6 @@ export default {
         })
       })
       return total;
-
     }
   }
 }
