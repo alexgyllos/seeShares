@@ -2,7 +2,7 @@
   <div class="">
     <div>
 
-    <p v-if="totalValue">View Total Current Shares Value: {{result}}</p>
+    <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
     <button type="button" name="button" v-on:click="totalValue()">View</button>
 
 
@@ -90,11 +90,22 @@ export default {
       return this.chartOpen = true;
     },
     prepareData(share, dailyData, chartDataObject){
+      // this.prepareDates(dailyData, chartDataObject)
       Object.entries(dailyData).forEach(([date, info]) => {
-        if (chartDataObject[share]) { chartDataObject[share].push(Number(info['4. close'])) }
-        else { chartDataObject[share] = [] }
+
+        if (chartDataObject[share]) { chartDataObject[share][date] = Number(info['4. close']) }
+        else { chartDataObject[share] = {} };
+
         return chartDataObject;
       })
+    },
+    prepareDates(dailyData, chartDataObject){
+      chartDataObject['dates'] = [];
+      Object.keys(dailyData).forEach((date) => {
+        chartDataObject['dates'].push(date)
+      })
+      return chartDataObject['dates']
+    }
 
 
 
@@ -107,7 +118,7 @@ export default {
         // })
         // })
       // })
-    }
+
 
   },
   components: {

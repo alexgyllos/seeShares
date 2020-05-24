@@ -39,15 +39,15 @@ export default {
       chart2: {
         title: { text: 'Multi-Day Chart' },
         xAxis: {
-          categories: ['open', 'close']
+          categories: Object.keys(this.chartData['FB'])
           },
         series: [{
           name: 'FB',
-          data: this.chartData['FB']
+          data: this.dataToPass('FB')
         },
         {
           name: 'IBM',
-          data: this.chartData['IBM']
+          data: this.dataToPass('IBM')
           // chartData['IBM']
         }
         ]
@@ -66,8 +66,19 @@ export default {
     // extractData(){
     //   this.
     }
+  // },
+  // watch: {
+  //   filterByDate(startDate, endDate){
+
+  },
+  computed: {
+    chart2.series[0].data(){
+      
+    }
+    }
   }
-}
+  }
+
 </script>
 
 <style lang="css" scoped>
