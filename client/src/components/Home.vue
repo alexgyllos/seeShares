@@ -1,13 +1,17 @@
 <template lang="html">
   <div class="">
 
-    <p>Total Current Shares Value: {{totalValue}}
-  </p>
+    <p v-if="totalValue">View Total Current Shares Value: {{result}}</p>
+    <button type="button" name="button" v-on:click="totalValue()">View</button>
+
+    <Charts :latestValue="latestValue"></Charts>
 
   </div>
 </template>
 
 <script>
+import Charts from '@/components/Charts.vue'
+
 export default {
   name: 'Home',
   data() {
@@ -15,10 +19,12 @@ export default {
       userShares: {},
       numberOfShares: null,
       total: null,
-      latestValue: {}
+      latestValue: {},
+      componentLoaded: false,
+      result: 0
     }
   },
-  mounted() {
+  mounted: function mounted() {
     fetch('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=FB&interval=30min&apikey=P3TR43K4R4WKZ1YU')
     .then(res => res.json())
     .then(share => {
@@ -42,8 +48,26 @@ export default {
     fetch('http://localhost:3000/api/shares/')
     .then(res => res.json())
     .then(data => this.numberOfShares = data[0]);
+
+    this.componentLoaded = true;
+
+    // this.totalValue()
   },
   computed: {
+    // totalValue(){
+    //   let total = 0
+    //   Object.keys(this.numberOfShares).forEach((share) => {
+    //     Object.keys(this.latestValue).forEach(key => {
+    //       if (share === key) {
+    //         total += this.numberOfShares[share] * this.latestValue[key]['4. close']
+    //       }
+    //     })
+    //   })
+    //
+    //   return this.result = total ;
+    // }
+  },
+  methods: {
     totalValue(){
       let total = 0
       Object.keys(this.numberOfShares).forEach((share) => {
@@ -53,8 +77,12 @@ export default {
           }
         })
       })
-      return total;
+
+      return this.result = total ;
     }
+  },
+  components: {
+    Charts
   }
 }
 </script>
