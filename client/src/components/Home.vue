@@ -1,11 +1,13 @@
 <template lang="html">
   <div class="">
-    <div v-if="contentLoaded">
+    <div>
 
     <p v-if="totalValue">View Total Current Shares Value: {{result}}</p>
     <button type="button" name="button" v-on:click="totalValue()">View</button>
 
-    <Charts :latestValue="latestValue"></Charts>
+
+    <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
+    <Charts :latestValue="latestValue" v-if="chartOpen"></Charts>
 
 </div>
 
@@ -24,23 +26,24 @@ export default {
       total: null,
       latestValue: {},
       componentLoaded: false,
-      result: 0
+      result: 0,
+      chartOpen: false
     }
   },
   mounted: function mounted() {
-    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=FB&interval=30min&apikey=P3TR43K4R4WKZ1YU')
+    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=FB&interval=30min&apikey=P3TR43K4R4WKZ1YU')
     .then(res => res.json())
     .then(share => {
       this.userShares['FB'] = share;
-      let temp = share['Time Series (30min)']
+      let temp = share['Time Series (Daily)']
       this.latestValue['FB'] = temp[Object.keys(temp).pop()]
     })
 
-    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=30min&apikey=P3TR43K4R4WKZ1YU')
+    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&interval=30min&apikey=P3TR43K4R4WKZ1YU')
     .then(res => res.json())
     .then(share => {
       this.userShares['IBM'] = share;
-      let temp = share['Time Series (30min)']
+      let temp = share['Time Series (Daily)']
       this.latestValue['IBM'] = temp[Object.keys(temp).pop()]
     })
 
@@ -52,7 +55,6 @@ export default {
     .then(res => res.json())
     .then(data => this.numberOfShares = data[0]);
 
-    this.componentLoaded = true;
 
     // this.totalValue()
   },
@@ -84,7 +86,11 @@ export default {
       })
 
       return this.result = total ;
-    }
+    },
+    openChart(){
+      return this.chartOpen = true;
+    },
+
   },
   components: {
     Charts
