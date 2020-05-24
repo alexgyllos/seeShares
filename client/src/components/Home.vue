@@ -7,7 +7,9 @@
 
 
     <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
-    <Charts :latestValue="latestValue" v-if="chartOpen"></Charts>
+    <Charts :chartData="chartData" v-if="chartOpen"></Charts>
+
+      <button type="button" name="button" v-on:click="prepareData()">PREPARE THE DATA</button>
 
 </div>
 
@@ -27,29 +29,26 @@ export default {
       latestValue: {},
       componentLoaded: false,
       result: 0,
-      chartOpen: false
+      chartOpen: false,
+      chartData: {}
     }
   },
   mounted: function mounted() {
     fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=FB&interval=30min&apikey=P3TR43K4R4WKZ1YU')
     .then(res => res.json())
     .then(share => {
-      this.userShares['FB'] = share;
-      let temp = share['Time Series (Daily)']
-      this.latestValue['FB'] = temp[Object.keys(temp).pop()]
+      this.userShares['FB'] = share['Time Series (Daily)'];
+      this.prepareData('FB', share['Time Series (Daily)'], this.chartData);
+      this.latestValue['FB'] = this.userShares['FB'][Object.keys(this.userShares['FB']).pop()]
     })
 
     fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&interval=30min&apikey=P3TR43K4R4WKZ1YU')
     .then(res => res.json())
     .then(share => {
-      this.userShares['IBM'] = share;
-      let temp = share['Time Series (Daily)']
-      this.latestValue['IBM'] = temp[Object.keys(temp).pop()]
+      this.userShares['IBM'] = share['Time Series (Daily)'];
+      this.prepareData('IBM', share['Time Series (Daily)'], this.chartData);
+      this.latestValue['IBM'] = this.userShares['IBM'][Object.keys(this.userShares['IBM']).pop()]
     })
-
-    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=30min&apikey=P3TR43K4R4WKZ1YU')
-    .then(res => res.json())
-    .then(share => this.userShares['IBM'] = share)
 
     fetch('http://localhost:3000/api/shares/')
     .then(res => res.json())
@@ -90,6 +89,25 @@ export default {
     openChart(){
       return this.chartOpen = true;
     },
+    prepareData(share, dailyData, chartDataObject){
+      Object.entries(dailyData).forEach(([date, info]) => {
+        if (chartDataObject[share]) { chartDataObject[share].push(Number(info['4. close'])) }
+        else { chartDataObject[share] = [] }
+        return chartDataObject;
+      })
+
+
+
+      // Object.entries(this.userShares).forEach(([share, data]) => {
+      //   Object.entries(data).forEach(([date, info]) => {
+      //     if (chartDataObject[share]) { chartDataObject[share].push(info['4. close']) }
+      //     else { chartDataObject[share] = [] }
+      //     return chartDataObject;
+          // console.log(`Equity: ${share}, Date: ${date}; Closing value: ${info['4. close']}`)
+        // })
+        // })
+      // })
+    }
 
   },
   components: {

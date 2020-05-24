@@ -18,7 +18,7 @@ import {Chart} from 'highcharts-vue'
 
 export default {
   name: 'Charts',
-  props: ["latestValue"],
+  props: ["chartData"],
   data() {
     return {
       chart1: {
@@ -28,11 +28,11 @@ export default {
           },
         series: [{
           name: 'FB',
-          data: [Number(this.latestValue['FB']['1. open']), Number(this.latestValue['FB']['4. close'])]
+          data: [Number(this.chartData['FB'])]
         },
         {
           name: 'IBM',
-          data: [Number(this.latestValue['IBM']['1. open']), Number(this.latestValue['IBM']['4. close'])]
+          data: [Number(this.chartData['IBM'])]
         }
         ]
       },
@@ -43,11 +43,12 @@ export default {
           },
         series: [{
           name: 'FB',
-          data: [Number(this.latestValue['FB']['1. open']), Number(this.latestValue['FB']['4. close'])]
+          data: this.chartData['FB']
         },
         {
           name: 'IBM',
-          data: [Number(this.latestValue['IBM']['1. open']), Number(this.latestValue['IBM']['4. close'])]
+          data: this.chartData['IBM']
+          // chartData['IBM']
         }
         ]
       },
@@ -61,8 +62,10 @@ export default {
   methods: {
     showChart(chartToShow){
       return this.currentChart = chartToShow;
-    },
-    
+    // },
+    // extractData(){
+    //   this.
+    }
   }
 }
 </script>
