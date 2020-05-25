@@ -39,15 +39,15 @@ export default {
       chart2: {
         title: { text: 'Multi-Day Chart' },
         xAxis: {
-          categories: Object.keys(this.chartData['FB'])
+          categories: Object.keys(this.chartData['FB']).reverse()
           },
         series: [{
           name: 'FB',
-          data: this.dataToPass('FB')
+          data: Object.values(this.chartData['FB']).reverse()
         },
         {
           name: 'IBM',
-          data: this.dataToPass('IBM')
+          data: Object.values(this.chartData['IBM']).reverse()
           // chartData['IBM']
         }
         ]
@@ -59,25 +59,29 @@ export default {
   components: {
     highcharts: Chart
   },
+  mounted(){
+
+  },
   methods: {
     showChart(chartToShow){
       return this.currentChart = chartToShow;
     // },
     // extractData(){
     //   this.
-    }
+  },
+
   // },
   // watch: {
   //   filterByDate(startDate, endDate){
 
-  },
-  computed: {
-    chart2.series[0].data(){
-      
-    }
+  // },
+  // computed: {
+  //   chart2.series[0].data(){
+  //
+  //   }
     }
   }
-  }
+
 
 </script>
 

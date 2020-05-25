@@ -91,10 +91,9 @@ export default {
     },
     prepareData(share, dailyData, chartDataObject){
       // this.prepareDates(dailyData, chartDataObject)
+      chartDataObject[share] = {};
       Object.entries(dailyData).forEach(([date, info]) => {
-
-        if (chartDataObject[share]) { chartDataObject[share][date] = Number(info['4. close']) }
-        else { chartDataObject[share] = {} };
+        chartDataObject[share][date] = Number(info['4. close']);
 
         return chartDataObject;
       })
