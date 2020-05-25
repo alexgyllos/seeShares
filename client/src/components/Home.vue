@@ -18,6 +18,7 @@
 
 <script>
 import Charts from '@/components/Charts.vue'
+import moment from 'moment'
 
 export default {
   name: 'Home',
