@@ -7,11 +7,13 @@
     <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
     <button type="button" name="button" v-on:click="totalValue()">View</button>
 
+    <br>
 
     <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
-    <Charts :chartData="chartData" v-if="chartOpen"></Charts>
 
-      <button type="button" name="button" v-on:click="prepareData()">PREPARE THE DATA</button>
+    <br>
+    
+    <Charts :chartData="chartData" v-if="chartOpen"></Charts>
 
 </div>
 

@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    <p>hi</p>
+
     <div id='one-day-chart'>
     <button type="button" name="button" v-on:click="showChart('One-Day Chart')">One-Day Chart</button>
       <button type="button" name="button" v-on:click="showChart('Multi-Day Chart')">Multi-Day Chart</button>
