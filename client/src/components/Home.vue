@@ -25,19 +25,19 @@ export default {
     }
   },
   mounted: function mounted() {
-    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=FB&interval=30min&apikey=P3TR43K4R4WKZ1YU')
+    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=FB&interval=30min&apikey=P3TR43K4R4WKZ1YU')
     .then(res => res.json())
     .then(share => {
       this.userShares['FB'] = share;
-      let temp = share['Time Series (30min)']
+      let temp = share['Time Series (Daily)']
       this.latestValue['FB'] = temp[Object.keys(temp).pop()]
     })
 
-    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=30min&apikey=P3TR43K4R4WKZ1YU')
+    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&interval=30min&apikey=P3TR43K4R4WKZ1YU')
     .then(res => res.json())
     .then(share => {
       this.userShares['IBM'] = share;
-      let temp = share['Time Series (30min)']
+      let temp = share['Time Series (Daily)']
       this.latestValue['IBM'] = temp[Object.keys(temp).pop()]
     })
 

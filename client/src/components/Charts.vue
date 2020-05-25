@@ -14,6 +14,9 @@ export default {
   data() {
     return {
       chartOptions: {
+        xAxis: {
+          categories: ['open', 'close']
+        },
         series: [{
           name: 'FB',
           data: [Number(this.latestValue['FB']['1. open']), Number(this.latestValue['FB']['4. close'])]
