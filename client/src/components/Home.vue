@@ -2,7 +2,7 @@
   <div class="">
     <div>
 
-    <p v-for="share of numberOfShares">{{share}}</p>
+    <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
 
     <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
     <button type="button" name="button" v-on:click="totalValue()">View</button>
@@ -55,30 +55,18 @@ export default {
 
     fetch('http://localhost:3000/api/shares/')
     .then(res => res.json())
-    .then(data => this.numberOfShares = data[0]);
+    .then(data => {
+      const { _id, ...shares } = data[0];
+      this.numberOfShares = shares;
+    });
 
 
-    // this.totalValue()
   },
   computed: {
-    // totalValue(){
-    //   let total = 0
-    //   Object.keys(this.numberOfShares).forEach((share) => {
-    //     Object.keys(this.latestValue).forEach(key => {
-    //       if (share === key) {
-    //         total += this.numberOfShares[share] * this.latestValue[key]['4. close']
-    //       }
-    //     })
-    //   })
-    //
-    //   return this.result = total ;
-    // }
   },
   methods: {
     totalValue(){
       let total = 0
-      // if (this.contentLoaded === false) {return total = 0}
-      // else {
       Object.keys(this.numberOfShares).forEach((share) => {
         Object.keys(this.latestValue).forEach(key => {
           if (share === key) {
@@ -93,7 +81,6 @@ export default {
       return this.chartOpen = true;
     },
     prepareData(share, dailyData, chartDataObject){
-      // this.prepareDates(dailyData, chartDataObject)
       chartDataObject[share] = {};
       Object.entries(dailyData).forEach(([date, info]) => {
         let newDate = moment(date).format("DD MM YYYY")
