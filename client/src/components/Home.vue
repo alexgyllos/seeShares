@@ -2,6 +2,8 @@
   <div class="">
     <div>
 
+    <p v-for="share of numberOfShares">{{share}}</p>
+
     <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
     <button type="button" name="button" v-on:click="totalValue()">View</button>
 
