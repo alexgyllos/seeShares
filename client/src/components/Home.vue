@@ -94,7 +94,8 @@ export default {
       // this.prepareDates(dailyData, chartDataObject)
       chartDataObject[share] = {};
       Object.entries(dailyData).forEach(([date, info]) => {
-        chartDataObject[share][date] = Number(info['4. close']);
+        let newDate = moment(date).format("DD MM YYYY")
+        chartDataObject[share][newDate] = Number(info['4. close']);
 
         return chartDataObject;
       })
@@ -105,21 +106,10 @@ export default {
         chartDataObject['dates'].push(date)
       })
       return chartDataObject['dates']
+    },
+    configureDates(){
+
     }
-
-
-
-      // Object.entries(this.userShares).forEach(([share, data]) => {
-      //   Object.entries(data).forEach(([date, info]) => {
-      //     if (chartDataObject[share]) { chartDataObject[share].push(info['4. close']) }
-      //     else { chartDataObject[share] = [] }
-      //     return chartDataObject;
-          // console.log(`Equity: ${share}, Date: ${date}; Closing value: ${info['4. close']}`)
-        // })
-        // })
-      // })
-
-
   },
   components: {
     Charts
