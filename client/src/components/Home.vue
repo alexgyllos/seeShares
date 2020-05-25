@@ -39,7 +39,7 @@ export default {
     .then(share => {
       this.userShares['FB'] = share['Time Series (Daily)'];
       this.prepareData('FB', share['Time Series (Daily)'], this.chartData);
-      this.latestValue['FB'] = this.userShares['FB'][Object.keys(this.userShares['FB']).pop()]
+      this.latestValue['FB'] = this.userShares['FB'][Object.keys(this.userShares['FB']).shift()]
     })
 
     fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&interval=30min&apikey=P3TR43K4R4WKZ1YU')
@@ -47,7 +47,7 @@ export default {
     .then(share => {
       this.userShares['IBM'] = share['Time Series (Daily)'];
       this.prepareData('IBM', share['Time Series (Daily)'], this.chartData);
-      this.latestValue['IBM'] = this.userShares['IBM'][Object.keys(this.userShares['IBM']).pop()]
+      this.latestValue['IBM'] = this.userShares['IBM'][Object.keys(this.userShares['IBM']).shift()]
     })
 
     fetch('http://localhost:3000/api/shares/')
