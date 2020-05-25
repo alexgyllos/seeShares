@@ -44,9 +44,6 @@ export default {
           }
         },
         xAxis: {
-          title: {
-            text: 'Date'
-          },
           categories: Object.keys(this.chartData['FB']).reverse()
           },
         series: [{
