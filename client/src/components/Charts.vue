@@ -21,18 +21,11 @@ export default {
   props: ["chartData"],
   data() {
     return {
-<<<<<<< HEAD
-      chartOptions: {
-        xAxis: {
-          categories: ['open', 'close']
-        },
-=======
       chart1: {
         title: {text: 'One-Day Chart'},
         xAxis: {
           categories: ['open', 'close']
           },
->>>>>>> 4ce424a38d854a3685f1bdf596deb76057727e77
         series: [{
           name: 'FB',
           data: [Number(this.chartData['FB'])]
@@ -45,7 +38,15 @@ export default {
       },
       chart2: {
         title: { text: 'Multi-Day Chart' },
+        yAxis: {
+          title: {
+            text: 'Price $'
+          }
+        },
         xAxis: {
+          title: {
+            text: 'Date'
+          },
           categories: Object.keys(this.chartData['FB']).reverse()
           },
         series: [{
@@ -55,7 +56,6 @@ export default {
         {
           name: 'IBM',
           data: Object.values(this.chartData['IBM']).reverse()
-          // chartData['IBM']
         }
         ]
       },
