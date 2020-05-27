@@ -12,7 +12,7 @@
     <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
     <br>
-    
+
     <Charts :chartData="chartData" v-if="chartOpen"></Charts>
 
 </div>
@@ -87,7 +87,6 @@ export default {
       Object.entries(dailyData).forEach(([date, info]) => {
         let newDate = moment(date).format("DD MM YYYY")
         chartDataObject[share][newDate] = Number(info['4. close']);
-
         return chartDataObject;
       })
     },
