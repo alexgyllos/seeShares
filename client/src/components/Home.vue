@@ -86,7 +86,7 @@ export default {
       chartDataObject[share] = {};
       Object.entries(dailyData).forEach(([date, info]) => {
         let newDate = moment(date).format("DD MM YYYY")
-        chartDataObject[share][newDate] = Number(info['4. close']);
+        chartDataObject[share][date] = Number(info['4. close']);
         return chartDataObject;
       })
     },
