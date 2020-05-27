@@ -14,6 +14,11 @@
 
     <button type="button" name="button" v-on:click="handleDates()">View Dates</button>
     <highcharts :options='chart2' v-if="currentChart === 'Multi-Day Chart'"></highcharts>
+
+    <button v-on:click="updateData('2020-05-01', '2020-05-05')">EXTREME TEST DATA</button>
+
+
+
   </div>
   <div>
 
@@ -68,7 +73,8 @@ export default {
       },
       currentChart: null,
       startDate: null,
-      endDate: null
+      endDate: null,
+      newData: null
     }
 
   },
@@ -76,42 +82,73 @@ export default {
     highcharts: Chart
   },
   mounted(){
+    // this.newData = this.chartData;
 
   },
   watch: {
     // data() {
     //   this.chart2.series['FB'].setData(this.)
     // }
-    chartData(){
-      Object.values(this.chartData['IBM'])
-    }
+    // chartData(){
+    //   Object.values(this.chartData['IBM'])
+    // }
   },
   methods: {
     showChart(chartToShow){
       return this.currentChart = chartToShow;
-    // },
-    // extractData(){
-    //   this.
-    },
-    handleDates(){
-      // let formattedStartDate = moment(this.startDate).format("DD MM YYYY");
-      // let formattedEndDate = moment(this.endDate).format("DD MM YYYY");
 
+  },
+  updateData(startDate, endDate){
+    let newChartData = {};
 
-
-      const filtered = Object.entries(this.chartData).forEach(([equity, dates]) => {Object.keys(dates).filter(date => {
-        if((date >= this.startDate) && (date <= this.endDate)){
-          return date;
-        }
-      }).reduce((obj, key) => {
-        obj[key] = dates[key];
-        return obj;
-
-      }, {})
+    Object.keys(this.chartData).forEach((key) => {
+      newChartData[key] = {};
     });
 
-      console.log(filtered);
-    }
+    Object.entries(this.chartData).forEach(([equity, dates]) => {
+      Object.entries(dates).forEach(([date, price]) => {
+        if ((date >= startDate) && (date <= endDate)) {
+          newChartData[equity][date] = price;
+        } return newChartData;
+        // this.chart2[series][0].data = newChartData['FB'];
+        // this.chart2[series][1].data = newChartData['IBM'];
+      })
+    })
+  }
+  // setChartData(arr){
+  //   this.
+  // }
+
+    // const filterObject = (obj, filter) => {
+    //   Object.keys(obj)
+    //         .filter(key => filter(obj[key]))
+    //         .reduce((res, key) => res[key] = obj[key], res, {} );
+    // },
+    // defineFilter() {
+    //   if ((date >= this.startDate) && (date ))
+    // }
+    //
+    // handleDates(){
+    //   // let formattedStartDate = moment(this.startDate).format("DD MM YYYY");
+    //   // let formattedEndDate = moment(this.endDate).format("DD MM YYYY");
+    //   const filtered = Object.entries(this.chartData).forEach(([equity, dates]) => {
+    //     filterObject(dates, )
+    //   })
+    //
+    //
+    //   const filtered = Object.entries(this.chartData).forEach(([equity, dates]) => {Object.keys(dates).filter(date => {
+    //     if((date >= this.startDate) && (date <= this.endDate)){
+    //       return date;
+    //     }
+    //   }).reduce((obj, key) => {
+    //     obj[key] = dates[key];
+    //     return obj;
+    //
+    //   }, {})
+    // });
+    //
+    //   console.log(filtered);
+    // }
     }
   }
 
