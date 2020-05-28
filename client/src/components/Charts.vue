@@ -2,20 +2,19 @@
   <div class="">
 
     <div id='one-day-chart'>
-    <button type="button" name="button" v-on:click="showChart('One-Day Chart')">One-Day Chart</button>
       <button type="button" name="button" v-on:click="showChart('Multi-Day Chart')">Multi-Day Chart</button>
 
     <highcharts :options="chart1" v-if="currentChart === 'One-Day Chart'"></highcharts>
 
-    <label>Stard Date:</label>
+    <!-- <label>Stard Date:</label>
     <input type="date" name="startDate" v-model="startDate">
     <label>End Date:</label>
-    <input type="date" name="endDate" v-model="endDate">
+    <input type="date" name="endDate" v-model="endDate"> -->
 
     <button type="button" name="button" v-on:click="handleDates()">View Dates</button>
-    <highcharts :options='chart2' v-if="currentChart === 'Multi-Day Chart'"></highcharts>
+    <highcharts :options='chart2' :constructor-type="'stockChart'" v-if="currentChart === 'Multi-Day Chart'"></highcharts>
 
-    <button v-on:click="updateData('2020-05-01', '2020-05-05')">EXTREME TEST DATA</button>
+    <!-- <button v-on:click="updateData('2020-05-01', '2020-05-05')">EXTREME TEST DATA</button> -->
 
 
 
@@ -29,27 +28,16 @@
 <script>
 import {Chart} from 'highcharts-vue'
 import moment from 'moment'
+import { eventBus } from '../main.js';
+
+
+
 
 export default {
   name: 'Charts',
   props: ["chartData"],
   data() {
     return {
-      chart1: {
-        title: {text: 'One-Day Chart'},
-        xAxis: {
-          categories: ['open', 'close']
-          },
-        series: [{
-          name: 'FB',
-          data: [Number(this.chartData['FB'])]
-        },
-        {
-          name: 'IBM',
-          data: [Number(this.chartData['IBM'])]
-        }
-        ]
-      },
       chart2: {
         title: { text: 'Multi-Day Chart' },
         yAxis: {
@@ -69,11 +57,37 @@ export default {
           name: 'IBM',
           data: Object.values(this.chartData['IBM']).reverse()
         }
-        ]
+      ],
+      rangeSelector: {
+        buttons: [
+          {
+            type: 'day',
+            count: 1,
+            text: '1d'
+          },
+          {
+            type: 'month',
+            count: 1,
+            text: '1m'
+          },
+          {
+            type: 'year',
+            count: 1,
+            text: '1y'
+          },
+          {
+            type: 'all',
+            text: 'All'
+          }
+      ],
+      selected: 4
+      }
       },
       currentChart: null,
-      startDate: null,
-      endDate: null,
+      dataFilter: {
+        startDate: '2020-05-01',
+        endDate: '2020-05-05'
+      },
       newData: null
     }
 
@@ -83,6 +97,8 @@ export default {
   },
   mounted(){
     // this.newData = this.chartData;
+
+
 
   },
   watch: {
@@ -99,6 +115,7 @@ export default {
 
   },
   updateData(startDate, endDate){
+    // eventBus.$emit('filter-dates', this.dataFilter)
     let newChartData = {};
 
     Object.keys(this.chartData).forEach((key) => {
@@ -109,9 +126,7 @@ export default {
       Object.entries(dates).forEach(([date, price]) => {
         if ((date >= startDate) && (date <= endDate)) {
           newChartData[equity][date] = price;
-        } return newChartData;
-        // this.chart2[series][0].data = newChartData['FB'];
-        // this.chart2[series][1].data = newChartData['IBM'];
+        } this.chart2.series
       })
     })
   }

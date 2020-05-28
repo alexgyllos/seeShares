@@ -25,6 +25,7 @@
 <script>
 import Charts from '@/components/Charts.vue'
 import moment from 'moment'
+import { eventBus } from '../main.js';
 
 export default {
   name: 'Home',
@@ -67,6 +68,10 @@ export default {
       this.numberOfShares = shares;
     });
 
+    eventBus.$on('filter-dates', ({startDate, endDate}) => {
+      this.updateData(startDate, endDate);
+
+    })
 
   },
   computed: {
