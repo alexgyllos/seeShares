@@ -103,11 +103,15 @@ export default {
         if((date >= this.startDate) && (date <= this.endDate)){
           return date;
         }
-      }).reduce((obj, key) => {
-        obj[key] = dates[key];
-        return obj;
+      })
 
-      }, {})
+
+
+      // .reduce((obj, key) => {
+      //   obj[key] = dates[key];
+      //   return obj;
+      //
+      // }, {})
     });
 
       console.log(filtered);
