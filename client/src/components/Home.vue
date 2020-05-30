@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="">
+    <h1>SHARE/\/BOOK</h1>
     <div>
 
     <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
@@ -17,7 +18,7 @@
 
     <Charts :chartData="chartData" v-if="chartOpen"></Charts>
 
-    <button v-on:click="testUpdateData">EXTREME TEST DATA</button>
+    <!-- <button v-on:click="testUpdateData">EXTREME TEST DATA</button> -->
 
 </div>
 

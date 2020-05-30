@@ -47,10 +47,6 @@ export default {
         },
         xAxis: {
           type: 'datetime',
-          // dateTimeLabelFormats: {
-          //   month: '%e. %b',
-          //   year: '%b'
-          // },
           title: {
             text: 'Date'
           }
@@ -58,14 +54,24 @@ export default {
         },
 
         tooltip: {
-          enabled: true,
+          // enabled: true,
+          valueDecimals: 2
 
         },
 
         series: [{
-          data: Object.entries(this.chartData['FB']),
-          pointStart: Date.UTC(2020, 1, 1),
-          pointInterval: 24 * 3600 * 1000
+          name: 'FB',
+          data: Object.entries(this.chartData['FB']).reverse(),
+          pointStart: Date.UTC(2020),
+          pointEnd: Date.UTC(2020),
+          pointInterval: 24 * 3600 * 1500
+        },
+        {
+          name: 'IBM',
+          data: Object.entries(this.chartData['IBM']).reverse(),
+          pointStart: Date.UTC(2020),
+          pointEnd: Date.UTC(2020),
+          pointInterval: 24 * 3600 * 1500
         }
 
 
@@ -82,20 +88,25 @@ export default {
       ],
       rangeSelector: {
         buttons: [
+          // {
+          //   type: 'day',
+          //   count: 1,
+          //   text: '1d'
+          // },
           {
             type: 'day',
-            count: 1,
-            text: '1d'
+            count: 8,
+            text: 'Week'
           },
           {
             type: 'month',
             count: 1,
-            text: '1m'
+            text: '1M'
           },
           {
-            type: 'year',
-            count: 1,
-            text: '1y'
+            type: 'month',
+            count: 3,
+            text: '3M'
           },
           {
             type: 'all',
