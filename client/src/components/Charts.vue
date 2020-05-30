@@ -4,14 +4,14 @@
     <div id='one-day-chart'>
       <button type="button" name="button" v-on:click="showChart('Multi-Day Chart')">Multi-Day Chart</button>
 
-    <highcharts :options="chart1" v-if="currentChart === 'One-Day Chart'"></highcharts>
+    <!-- <highcharts :options="chart1" v-if="currentChart === 'One-Day Chart'"></highcharts> -->
 
     <!-- <label>Stard Date:</label>
     <input type="date" name="startDate" v-model="startDate">
     <label>End Date:</label>
     <input type="date" name="endDate" v-model="endDate"> -->
 
-    <button type="button" name="button" v-on:click="handleDates()">View Dates</button>
+    <!-- <button type="button" name="button" v-on:click="handleDates()">View Dates</button> -->
     <highcharts :options='chart2' :constructor-type="'stockChart'" v-if="currentChart === 'Multi-Day Chart'"></highcharts>
 
     <!-- <button v-on:click="updateData('2020-05-01', '2020-05-05')">EXTREME TEST DATA</button> -->

@@ -100,7 +100,7 @@ export default {
       Object.entries(dailyData).forEach(([date, info]) => {
         let parts = date.split('-');
         // let newDate = new Date(parts[0], parts[1] - 1, parts[2]);
-        chartDataObject[share][Date.UTC(parts[0], parts[1], parts[2], 0, 0)] = Number(info['4. close']);
+        chartDataObject[share][date] = Number(info['4. close']);
         return chartDataObject;
       })
     },
