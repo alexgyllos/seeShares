@@ -9,11 +9,15 @@
 
     <br>
 
+
+
     <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
     <br>
 
     <Charts :chartData="chartData" v-if="chartOpen"></Charts>
+
+    <button v-on:click="testUpdateData">EXTREME TEST DATA</button>
 
 </div>
 
@@ -23,6 +27,8 @@
 <script>
 import Charts from '@/components/Charts.vue'
 import moment from 'moment'
+import { eventBus } from '../main.js';
+
 
 export default {
   name: 'Home',
@@ -35,7 +41,8 @@ export default {
       componentLoaded: false,
       result: 0,
       chartOpen: false,
-      chartData: {}
+      chartData: {},
+      apiData: {}
     }
   },
   mounted: function mounted() {
@@ -43,7 +50,8 @@ export default {
     .then(res => res.json())
     .then(share => {
       this.userShares['FB'] = share['Time Series (Daily)'];
-      this.prepareData('FB', share['Time Series (Daily)'], this.chartData);
+      this.prepareData('FB', share['Time Series (Daily)'], this.apiData);
+      this.chartData = this.apiData;
       this.latestValue['FB'] = this.userShares['FB'][Object.keys(this.userShares['FB']).shift()]
     })
 
@@ -51,7 +59,8 @@ export default {
     .then(res => res.json())
     .then(share => {
       this.userShares['IBM'] = share['Time Series (Daily)'];
-      this.prepareData('IBM', share['Time Series (Daily)'], this.chartData);
+      this.prepareData('IBM', share['Time Series (Daily)'], this.apiData);
+      this.chartData = this.apiData;
       this.latestValue['IBM'] = this.userShares['IBM'][Object.keys(this.userShares['IBM']).shift()]
     })
 
@@ -62,6 +71,10 @@ export default {
       this.numberOfShares = shares;
     });
 
+    eventBus.$on('filter-dates', ({startDate, endDate}) => {
+      this.updateData(startDate, endDate);
+
+    })
 
   },
   computed: {
@@ -85,9 +98,30 @@ export default {
     prepareData(share, dailyData, chartDataObject){
       chartDataObject[share] = {};
       Object.entries(dailyData).forEach(([date, info]) => {
-        let newDate = moment(date).format("DD MM YYYY")
-        chartDataObject[share][date] = Number(info['4. close']);
+        let parts = date.split('-');
+        // let newDate = new Date(parts[0], parts[1] - 1, parts[2]);
+        chartDataObject[share][Date.UTC(parts[0], parts[1], parts[2], 0, 0)] = Number(info['4. close']);
         return chartDataObject;
+      })
+    },
+    testUpdateData(){
+      this.updateData('2020-05-01', '2020-05-05');
+      // console.log(updatedResult);
+    },
+    updateData(startDate, endDate){
+      let newChartData = {};
+
+      Object.keys(this.chartData).forEach((key) => {
+        newChartData[key] = {};
+      });
+
+      Object.entries(this.chartData).forEach(([equity, dates]) => {
+        Object.entries(dates).forEach(([date, price]) => {
+          if ((date >= startDate) && (date <= endDate)) {
+            newChartData[equity][date] = price;
+          }
+          return this.chartData = newChartData;
+        })
       })
     },
     prepareDates(dailyData, chartDataObject){
