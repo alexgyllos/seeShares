@@ -46,17 +46,39 @@ export default {
           }
         },
         xAxis: {
-          categories: Object.keys(this.chartData['FB']).reverse()
-          },
-        series: [
-        {
-          name: 'FB',
-          data: Object.values(this.chartData['FB']).reverse()
+          type: 'datetime',
+          // dateTimeLabelFormats: {
+          //   month: '%e. %b',
+          //   year: '%b'
+          // },
+          title: {
+            text: 'Date'
+          }
+          // categories: Object.keys(this.chartData['FB']).reverse()
         },
-        {
-          name: 'IBM',
-          data: Object.values(this.chartData['IBM']).reverse()
+
+        tooltip: {
+          enabled: true,
+
+        },
+
+        series: [{
+          data: Object.entries(this.chartData['FB']),
+          pointStart: Date.UTC(2020, 1, 1),
+          pointInterval: 24 * 3600 * 1000
         }
+
+
+
+
+        // {
+        //   name: 'FB',
+        //   data: Object.values(this.chartData['FB']).reverse()
+        // }
+        // {
+        //   name: 'IBM',
+        //   data: Object.values(this.chartData['IBM']).reverse()
+        // }
       ],
       rangeSelector: {
         buttons: [

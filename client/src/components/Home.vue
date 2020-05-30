@@ -9,13 +9,15 @@
 
     <br>
 
+
+
     <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
     <br>
 
     <Charts :chartData="chartData" v-if="chartOpen"></Charts>
 
-    <!-- <button v-on:click="testUpdateData">EXTREME TEST DATA</button> -->
+    <button v-on:click="testUpdateData">EXTREME TEST DATA</button>
 
 </div>
 
@@ -26,6 +28,7 @@
 import Charts from '@/components/Charts.vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
+
 
 export default {
   name: 'Home',
@@ -95,8 +98,9 @@ export default {
     prepareData(share, dailyData, chartDataObject){
       chartDataObject[share] = {};
       Object.entries(dailyData).forEach(([date, info]) => {
-        let newDate = moment(date).format("DD MM YYYY")
-        chartDataObject[share][date] = Number(info['4. close']);
+        let parts = date.split('-');
+        // let newDate = new Date(parts[0], parts[1] - 1, parts[2]);
+        chartDataObject[share][Date.UTC(parts[0], parts[1], parts[2], 0, 0)] = Number(info['4. close']);
         return chartDataObject;
       })
     },
