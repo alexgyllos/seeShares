@@ -10,7 +10,7 @@
 
     <br>
 
-
+    <button type="button" v-on:click="loadSharesData()">Load Shares Data</button>
 
     <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
@@ -29,6 +29,7 @@
 import Charts from '@/components/Charts.vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
+import SharesServices from '../../services/SharesServices.js'
 
 
 export default {
@@ -46,36 +47,9 @@ export default {
       apiData: {}
     }
   },
-  mounted: function mounted() {
-    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=FB&interval=30min&apikey=P3TR43K4R4WKZ1YU')
-    .then(res => res.json())
-    .then(share => {
-      this.userShares['FB'] = share['Time Series (Daily)'];
-      this.prepareData('FB', share['Time Series (Daily)'], this.apiData);
-      this.chartData = this.apiData;
-      this.latestValue['FB'] = this.userShares['FB'][Object.keys(this.userShares['FB']).shift()]
-    })
+  mounted() {
+    this.loadSharesData();
 
-    fetch('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&interval=30min&apikey=P3TR43K4R4WKZ1YU')
-    .then(res => res.json())
-    .then(share => {
-      this.userShares['IBM'] = share['Time Series (Daily)'];
-      this.prepareData('IBM', share['Time Series (Daily)'], this.apiData);
-      this.chartData = this.apiData;
-      this.latestValue['IBM'] = this.userShares['IBM'][Object.keys(this.userShares['IBM']).shift()]
-    })
-
-    fetch('http://localhost:3000/api/shares/')
-    .then(res => res.json())
-    .then(data => {
-      const { _id, ...shares } = data[0];
-      this.numberOfShares = shares;
-    });
-
-    eventBus.$on('filter-dates', ({startDate, endDate}) => {
-      this.updateData(startDate, endDate);
-
-    })
 
   },
   computed: {
@@ -86,7 +60,7 @@ export default {
       Object.keys(this.numberOfShares).forEach((share) => {
         Object.keys(this.latestValue).forEach(key => {
           if (share === key) {
-            total += this.numberOfShares[share] * this.latestValue[key]['4. close']
+            total += this.numberOfShares[share] * this.latestValue[key]
           }
         })
       })
@@ -96,15 +70,34 @@ export default {
     openChart(){
       return this.chartOpen = true;
     },
-    prepareData(share, dailyData, chartDataObject){
-      chartDataObject[share] = {};
-      Object.entries(dailyData).forEach(([date, info]) => {
-        let parts = date.split('-');
-        // let newDate = new Date(parts[0], parts[1] - 1, parts[2]);
-        chartDataObject[share][date] = Number(info['4. close']);
-        return chartDataObject;
+    prepareData(results, chartDataObject) {
+      results.map(resultObj => {
+        // const shareName = resultObj['Meta Data']['2. Symbol'];
+        const {
+          '2. Symbol': shareName,
+          '3. Last Refreshed': lastRefreshed,
+        } = resultObj['Meta Data'];
+
+        chartDataObject[shareName] = {};
+
+        Object.entries(resultObj['Time Series (Daily)']).forEach(([date, info]) => {
+          chartDataObject[shareName][date] = Number(info['4. close']);
+          this.latestValue[shareName] = date === lastRefreshed ? Number(info['4. close']) : this.latestValue[shareName]
+          return chartDataObject
+        })
       })
     },
+
+
+    // prepareData(share, dailyData, chartDataObject){
+    //   chartDataObject[share] = {};
+    //   Object.entries(dailyData).forEach(([date, info]) => {
+    //     let parts = date.split('-');
+    //     // let newDate = new Date(parts[0], parts[1] - 1, parts[2]);
+    //     chartDataObject[share][date] = Number(info['4. close']);
+    //     return chartDataObject;
+    //   })
+
     testUpdateData(){
       this.updateData('2020-05-01', '2020-05-05');
       // console.log(updatedResult);
@@ -132,10 +125,21 @@ export default {
       })
       return chartDataObject['dates']
     },
-    configureDates(){
 
-    }
-  },
+
+    async loadSharesData() {
+      const userData = await SharesServices.getUserData();
+      const { _id, ...shares } = userData[0];
+      this.numberOfShares = shares;
+      const sharePromises = await SharesServices.getSharesPromises(shares)
+      const results = await Promise.all(sharePromises);
+      this.prepareData(results, this.chartData);
+
+      }
+      // console.log(sharePromises)
+      // const results = await Promise.all(sharePromises);
+      // console.log(results)
+    },
   components: {
     Charts
   }

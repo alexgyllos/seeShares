@@ -5,7 +5,7 @@
 </template>
 
 <script>
-// import Home from '@'
+
 
 export default {
   name: 'App',
