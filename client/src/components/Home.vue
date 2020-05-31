@@ -6,19 +6,12 @@
 
       <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
 
-      <button type="button" name="button" v-on:click="loadChart()">Load Chart</button>
-
-
-      <button type="button" name="button" v-on:click="prearePieChartData()">pie data</button>
-
       <PieChart :pieChartData="pieChartData" v-if="pieData"></PieChart>
 
       <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
       <button type="button" name="button" v-on:click="totalValue()">View</button>
 
       <br>
-
-      <!-- <button type="button" v-on:click="loadSharesData()">Load Shares Data</button> -->
 
       <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
@@ -50,32 +43,12 @@ export default {
       chartOpen: false,
       chartData: {},
       pieChartData: {},
-      pieData: false,
-      pieChart: {
-        type: 'pie',
-        series: [{
-          name: 'Value',
-          colorByPoint: true,
-          type: 'pie',
-          data: [{
-            name: 'FB',
-            y: 30
-          },
-          {
-            name: 'IBM',
-            y: 70
-          },
-          {
-            name: 'BA',
-            y: 10
-          }]
-        }]
-      }
+      pieData: false
     }
   },
   mounted() {
     this.loadSharesData();
-    this.prearePieChartData();
+    // this.prearePieChartData();
   },
   methods: {
     totalValue(){
@@ -113,6 +86,8 @@ export default {
           return chartDataObject
         })
       })
+      this.totalValue();
+      this.prearePieChartData();
     },
     prearePieChartData(){
       Object.keys(this.numberOfShares).forEach((share) => {
