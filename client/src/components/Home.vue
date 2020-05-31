@@ -11,7 +11,7 @@
 
       <button type="button" name="button" v-on:click="prearePieChartData()">pie data</button>
 
-      <PieChart :pieChartData="pieChartData"></PieChart>
+      <PieChart :pieChartData="pieChartData" v-if="pieData"></PieChart>
 
       <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
       <button type="button" name="button" v-on:click="totalValue()">View</button>
@@ -50,6 +50,7 @@ export default {
       chartOpen: false,
       chartData: {},
       pieChartData: {},
+      pieData: false,
       pieChart: {
         type: 'pie',
         series: [{
@@ -125,6 +126,7 @@ export default {
           }
         })
       })
+      this.pieData = true;
     }
     },
   components: {
