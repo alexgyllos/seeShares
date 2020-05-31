@@ -1,42 +1,40 @@
 <template lang="html">
   <div class="">
     <h1>SHARE/\/BOOK</h1>
-    <div>
 
-    <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
+      <div>
 
-    <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
-    <button type="button" name="button" v-on:click="totalValue()">View</button>
+      <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
 
-    <br>
+      <PieChart :pieChartData="pieChartData" v-if="pieData"></PieChart>
 
-    <button type="button" v-on:click="loadSharesData()">Load Shares Data</button>
+      <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
+      <button type="button" name="button" v-on:click="totalValue()">View</button>
 
-    <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
+      <br>
 
-    <br>
+      <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
-    <Charts :chartData="chartData" v-if="chartOpen"></Charts>
+      <br>
 
-    <!-- <button v-on:click="testUpdateData">EXTREME TEST DATA</button> -->
-
-</div>
+      <Charts :chartData="chartData" v-if="chartOpen"></Charts>
+    </div>
 
   </div>
 </template>
 
 <script>
+import {Chart} from 'highcharts-vue'
 import Charts from '@/components/Charts.vue'
+import PieChart from '@/components/PieChart.vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
-
 
 export default {
   name: 'Home',
   data() {
     return {
-      userShares: {},
       numberOfShares: null,
       total: null,
       latestValue: {},
@@ -44,11 +42,13 @@ export default {
       result: 0,
       chartOpen: false,
       chartData: {},
-      apiData: {}
+      pieChartData: {},
+      pieData: false
     }
   },
   mounted() {
     this.loadSharesData();
+    // this.prearePieChartData();
   },
   methods: {
     totalValue(){
@@ -69,7 +69,6 @@ export default {
       const sharePromises = await SharesServices.getSharesPromises(shares)
       const results = await Promise.all(sharePromises);
       this.prepareData(results, this.chartData);
-
     },
     openChart(){
       return this.chartOpen = true;
@@ -87,10 +86,27 @@ export default {
           return chartDataObject
         })
       })
+      this.totalValue();
+      this.prearePieChartData();
     },
+    prearePieChartData(){
+      Object.keys(this.numberOfShares).forEach((share) => {
+        Object.keys(this.latestValue).forEach(key => {
+          if (share === key) {
+            let newSeries = {
+              name: key,
+              y: this.numberOfShares[share] * this.latestValue[key]
+            }
+            this.pieChartData[share] = newSeries;
+          }
+        })
+      })
+      this.pieData = true;
+    }
     },
   components: {
-    Charts
+    Charts,
+    PieChart
   }
 }
 </script>
