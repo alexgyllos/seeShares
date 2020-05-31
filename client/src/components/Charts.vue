@@ -43,36 +43,36 @@ export default {
           valueDecimals: 2
         },
         series: [],
-      rangeSelector: {
-        buttons: [
-          {
-            type: 'day',
-            count: 8,
-            text: 'Week'
-          },
-          {
-            type: 'month',
-            count: 1,
-            text: '1M'
-          },
-          {
-            type: 'month',
-            count: 3,
-            text: '3M'
-          },
-          {
-            type: 'all',
-            text: 'All'
-          }
-      ],
-      selected: 4
-      }
-      },
-      mySeries: [],
-      currentChart: null,
-      dataFilter: {
-        startDate: '2020-05-01',
-        endDate: '2020-05-05'
+        rangeSelector: {
+          buttons: [
+            {
+              type: 'day',
+              count: 8,
+              text: 'Week'
+            },
+            {
+              type: 'month',
+              count: 1,
+              text: '1M'
+            },
+            {
+              type: 'month',
+              count: 3,
+              text: '3M'
+            },
+            {
+              type: 'all',
+              text: 'All'
+            }
+        ],
+        selected: 4
+        }
+        },
+        mySeries: [],
+        currentChart: null,
+        dataFilter: {
+          startDate: '2020-05-01',
+          endDate: '2020-05-05'
       }
     }
   },

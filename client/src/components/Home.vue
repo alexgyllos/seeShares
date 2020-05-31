@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import {Charts} from 'highcharts-vue'
+import {Chart} from 'highcharts-vue'
+import Charts from '@/components/Charts.vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
