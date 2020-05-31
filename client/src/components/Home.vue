@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {Chart} from 'highcharts-vue'
+import {Charts} from 'highcharts-vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
@@ -97,10 +97,6 @@ export default {
   },
   mounted() {
     this.loadSharesData();
-
-
-  },
-  computed: {
   },
   methods: {
     totalValue(){
@@ -112,22 +108,27 @@ export default {
           }
         })
       })
-
       return this.result = total ;
+    },
+    async loadSharesData() {
+      const userData = await SharesServices.getUserData();
+      const { _id, ...shares } = userData[0];
+      this.numberOfShares = shares;
+      const sharePromises = await SharesServices.getSharesPromises(shares)
+      const results = await Promise.all(sharePromises);
+      this.prepareData(results, this.chartData);
+
     },
     openChart(){
       return this.chartOpen = true;
     },
     prepareData(results, chartDataObject) {
       results.map(resultObj => {
-        // const shareName = resultObj['Meta Data']['2. Symbol'];
         const {
           '2. Symbol': shareName,
           '3. Last Refreshed': lastRefreshed,
         } = resultObj['Meta Data'];
-
         chartDataObject[shareName] = {};
-
         Object.entries(resultObj['Time Series (Daily)']).forEach(([date, info]) => {
           chartDataObject[shareName][date] = Number(info['4. close']);
           this.latestValue[shareName] = date === lastRefreshed ? Number(info['4. close']) : this.latestValue[shareName]
@@ -135,17 +136,6 @@ export default {
         })
       })
     },
-
-
-    // prepareData(share, dailyData, chartDataObject){
-    //   chartDataObject[share] = {};
-    //   Object.entries(dailyData).forEach(([date, info]) => {
-    //     let parts = date.split('-');
-    //     // let newDate = new Date(parts[0], parts[1] - 1, parts[2]);
-    //     chartDataObject[share][date] = Number(info['4. close']);
-    //     return chartDataObject;
-    //   })
-
     testUpdateData(){
       this.updateData('2020-05-01', '2020-05-05');
       // console.log(updatedResult);
@@ -187,12 +177,9 @@ export default {
       this.prepareData(results, this.chartData);
 
       }
-      // console.log(sharePromises)
-      // const results = await Promise.all(sharePromises);
-      // console.log(results)
     },
   components: {
-    highcharts: Chart
+    Charts
   }
 }
 </script>
