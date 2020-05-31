@@ -2,7 +2,7 @@
   <div class="">
 
     <div id='one-day-chart'>
-      <button type="button" name="button" v-on:click="showChart('Multi-Day Chart')">Multi-Day Chart</button>
+      <!-- <button type="button" name="button" v-on:click="showChart('Multi-Day Chart')">Multi-Day Chart</button> -->
 
     <!-- <highcharts :options="chart1" v-if="currentChart === 'One-Day Chart'"></highcharts> -->
 
@@ -12,7 +12,7 @@
     <input type="date" name="endDate" v-model="endDate"> -->
 
     <!-- <button type="button" name="button" v-on:click="handleDates()">View Dates</button> -->
-    <highcharts :options='chart2' :constructor-type="'stockChart'" v-if="currentChart === 'Multi-Day Chart'"></highcharts>
+    <!-- <highcharts :options='chart2' :constructor-type="'stockChart'" v-if="currentChart === 'Multi-Day Chart'"></highcharts> -->
 
     <!-- <button v-on:click="updateData('2020-05-01', '2020-05-05')">EXTREME TEST DATA</button> -->
 
@@ -38,84 +38,84 @@ export default {
   props: ["chartData"],
   data() {
     return {
-      chart2: {
-        title: { text: 'Multi-Day Chart' },
-        yAxis: {
-          title: {
-            text: 'Price $'
-          }
-        },
-        xAxis: {
-          type: 'datetime',
-          title: {
-            text: 'Date'
-          }
-          // categories: Object.keys(this.chartData['FB']).reverse()
-        },
-
-        tooltip: {
-          // enabled: true,
-          valueDecimals: 2
-
-        },
-
-        series: [{
-          name: 'FB',
-          data: Object.entries(this.chartData['FB']).reverse(),
-          pointStart: Date.UTC(2020),
-          pointEnd: Date.UTC(2020),
-          pointInterval: 24 * 3600 * 1500
-        },
-        {
-          name: 'IBM',
-          data: Object.entries(this.chartData['IBM']).reverse(),
-          pointStart: Date.UTC(2020),
-          pointEnd: Date.UTC(2020),
-          pointInterval: 24 * 3600 * 1500
-        }
-
-
-
-
-        // {
-        //   name: 'FB',
-        //   data: Object.values(this.chartData['FB']).reverse()
-        // }
-        // {
-        //   name: 'IBM',
-        //   data: Object.values(this.chartData['IBM']).reverse()
-        // }
-      ],
-      rangeSelector: {
-        buttons: [
-          // {
-          //   type: 'day',
-          //   count: 1,
-          //   text: '1d'
-          // },
-          {
-            type: 'day',
-            count: 8,
-            text: 'Week'
-          },
-          {
-            type: 'month',
-            count: 1,
-            text: '1M'
-          },
-          {
-            type: 'month',
-            count: 3,
-            text: '3M'
-          },
-          {
-            type: 'all',
-            text: 'All'
-          }
-      ],
-      selected: 4
-      }
-      },
+      // chart2: {
+      //   title: { text: 'Multi-Day Chart' },
+      //   yAxis: {
+      //     title: {
+      //       text: 'Price $'
+      //     }
+      //   },
+      //   xAxis: {
+      //     type: 'datetime',
+      //     title: {
+      //       text: 'Date'
+      //     }
+      //     // categories: Object.keys(this.chartData['FB']).reverse()
+      //   },
+      //
+      //   tooltip: {
+      //     // enabled: true,
+      //     valueDecimals: 2
+      //
+      //   },
+      //
+      //   series: [{
+      //     name: 'FB',
+      //     data: Object.entries(this.chartData['FB']).reverse(),
+      //     pointStart: Date.UTC(2020),
+      //     pointEnd: Date.UTC(2020),
+      //     pointInterval: 24 * 3600 * 1500
+      //   },
+      //   {
+      //     name: 'IBM',
+      //     data: Object.entries(this.chartData['IBM']).reverse(),
+      //     pointStart: Date.UTC(2020),
+      //     pointEnd: Date.UTC(2020),
+      //     pointInterval: 24 * 3600 * 1500
+      //   }
+      //
+      //
+      //
+      //
+      //   // {
+      //   //   name: 'FB',
+      //   //   data: Object.values(this.chartData['FB']).reverse()
+      //   // }
+      //   // {
+      //   //   name: 'IBM',
+      //   //   data: Object.values(this.chartData['IBM']).reverse()
+      //   // }
+      // ],
+      // rangeSelector: {
+      //   buttons: [
+      //     // {
+      //     //   type: 'day',
+      //     //   count: 1,
+      //     //   text: '1d'
+      //     // },
+      //     {
+      //       type: 'day',
+      //       count: 8,
+      //       text: 'Week'
+      //     },
+      //     {
+      //       type: 'month',
+      //       count: 1,
+      //       text: '1M'
+      //     },
+      //     {
+      //       type: 'month',
+      //       count: 3,
+      //       text: '3M'
+      //     },
+      //     {
+      //       type: 'all',
+      //       text: 'All'
+      //     }
+      // ],
+      // selected: 4
+      // }
+      // },
       currentChart: null,
       dataFilter: {
         startDate: '2020-05-01',

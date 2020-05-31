@@ -5,6 +5,12 @@
 
     <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
 
+    <button type="button" name="button" v-on:click="loadChart()">Load Chart</button>
+    <div id="pieChart">
+      <highcharts :options="pieChart"></highcharts>
+    </div>
+
+
     <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
     <button type="button" name="button" v-on:click="totalValue()">View</button>
 
@@ -26,7 +32,7 @@
 </template>
 
 <script>
-import Charts from '@/components/Charts.vue'
+import {Chart} from 'highcharts-vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
@@ -44,7 +50,49 @@ export default {
       result: 0,
       chartOpen: false,
       chartData: {},
-      apiData: {}
+      apiData: {},
+      pieChart: {
+        type: 'pie',
+        series: [{
+          name: 'Value',
+          colorByPoint: true,
+          type: 'pie',
+          data: [{
+            name: 'FB',
+            y: 30
+          },
+          {
+            name: 'IBM',
+            y: 70
+          },
+          {
+            name: 'BA',
+            y: 10
+          }]
+        }]
+        // title: {
+        //   text: 'Shares Owned'
+        // },
+        // plotOptions: {
+        //   pie : {
+        //     allowPointSelect: true,
+        //     cursor: 'pointer',
+        //     dataLabels: {
+        //       enabled: true
+        //     }
+        //   }
+        // },
+        // series: [{
+        //   name: 'Shares',
+        //   colorByPoint: true,
+        //   data: [{
+        //     name: 'FB',
+        //     y: 100,
+        //     sliced: true,
+        //     selected: true
+        //   }]
+        // }]
+      }
     }
   },
   mounted() {
@@ -125,6 +173,9 @@ export default {
       })
       return chartDataObject['dates']
     },
+    loadChart() {
+      let newSeries;
+    },
 
 
     async loadSharesData() {
@@ -141,7 +192,7 @@ export default {
       // console.log(results)
     },
   components: {
-    Charts
+    highcharts: Chart
   }
 }
 </script>
