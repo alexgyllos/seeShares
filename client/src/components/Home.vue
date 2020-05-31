@@ -1,32 +1,31 @@
 <template lang="html">
   <div class="">
     <h1>SHARE/\/BOOK</h1>
-    <div>
 
-    <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
+      <div>
 
-    <button type="button" name="button" v-on:click="loadChart()">Load Chart</button>
-    <div id="pieChart">
-      <highcharts :options="pieChart"></highcharts>
+      <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
+
+      <button type="button" name="button" v-on:click="loadChart()">Load Chart</button>
+
+
+      <button type="button" name="button" v-on:click="prearePieChartData()">pie data</button>
+
+      <PieChart :pieChartData="pieChartData"></PieChart>
+
+      <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
+      <button type="button" name="button" v-on:click="totalValue()">View</button>
+
+      <br>
+
+      <!-- <button type="button" v-on:click="loadSharesData()">Load Shares Data</button> -->
+
+      <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
+
+      <br>
+
+      <Charts :chartData="chartData" v-if="chartOpen"></Charts>
     </div>
-
-
-    <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
-    <button type="button" name="button" v-on:click="totalValue()">View</button>
-
-    <br>
-
-    <button type="button" v-on:click="loadSharesData()">Load Shares Data</button>
-
-    <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
-
-    <br>
-
-    <Charts :chartData="chartData" v-if="chartOpen"></Charts>
-
-    <!-- <button v-on:click="testUpdateData">EXTREME TEST DATA</button> -->
-
-</div>
 
   </div>
 </template>
@@ -34,16 +33,15 @@
 <script>
 import {Chart} from 'highcharts-vue'
 import Charts from '@/components/Charts.vue'
+import PieChart from '@/components/PieChart.vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
-
 
 export default {
   name: 'Home',
   data() {
     return {
-      userShares: {},
       numberOfShares: null,
       total: null,
       latestValue: {},
@@ -51,7 +49,7 @@ export default {
       result: 0,
       chartOpen: false,
       chartData: {},
-      apiData: {},
+      pieChartData: {},
       pieChart: {
         type: 'pie',
         series: [{
@@ -71,33 +69,12 @@ export default {
             y: 10
           }]
         }]
-        // title: {
-        //   text: 'Shares Owned'
-        // },
-        // plotOptions: {
-        //   pie : {
-        //     allowPointSelect: true,
-        //     cursor: 'pointer',
-        //     dataLabels: {
-        //       enabled: true
-        //     }
-        //   }
-        // },
-        // series: [{
-        //   name: 'Shares',
-        //   colorByPoint: true,
-        //   data: [{
-        //     name: 'FB',
-        //     y: 100,
-        //     sliced: true,
-        //     selected: true
-        //   }]
-        // }]
       }
     }
   },
   mounted() {
     this.loadSharesData();
+    this.prearePieChartData();
   },
   methods: {
     totalValue(){
@@ -118,7 +95,6 @@ export default {
       const sharePromises = await SharesServices.getSharesPromises(shares)
       const results = await Promise.all(sharePromises);
       this.prepareData(results, this.chartData);
-
     },
     openChart(){
       return this.chartOpen = true;
@@ -137,50 +113,23 @@ export default {
         })
       })
     },
-    testUpdateData(){
-      this.updateData('2020-05-01', '2020-05-05');
-      // console.log(updatedResult);
-    },
-    updateData(startDate, endDate){
-      let newChartData = {};
-
-      Object.keys(this.chartData).forEach((key) => {
-        newChartData[key] = {};
-      });
-
-      Object.entries(this.chartData).forEach(([equity, dates]) => {
-        Object.entries(dates).forEach(([date, price]) => {
-          if ((date >= startDate) && (date <= endDate)) {
-            newChartData[equity][date] = price;
+    prearePieChartData(){
+      Object.keys(this.numberOfShares).forEach((share) => {
+        Object.keys(this.latestValue).forEach(key => {
+          if (share === key) {
+            let newSeries = {
+              name: key,
+              y: this.numberOfShares[share] * this.latestValue[key]
+            }
+            this.pieChartData[share] = newSeries;
           }
-          return this.chartData = newChartData;
         })
       })
-    },
-    prepareDates(dailyData, chartDataObject){
-      chartDataObject['dates'] = [];
-      Object.keys(dailyData).forEach((date) => {
-        chartDataObject['dates'].push(date)
-      })
-      return chartDataObject['dates']
-    },
-    loadChart() {
-      let newSeries;
-    },
-
-
-    async loadSharesData() {
-      const userData = await SharesServices.getUserData();
-      const { _id, ...shares } = userData[0];
-      this.numberOfShares = shares;
-      const sharePromises = await SharesServices.getSharesPromises(shares)
-      const results = await Promise.all(sharePromises);
-      this.prepareData(results, this.chartData);
-
-      }
+    }
     },
   components: {
-    Charts
+    Charts,
+    PieChart
   }
 }
 </script>
