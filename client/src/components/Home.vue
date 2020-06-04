@@ -13,6 +13,10 @@
 
       <br>
 
+      <SharesList v-if="listData"
+                  :listData="listData"
+                  :numberOfShares="numberOfShares"></SharesList>
+
       <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
       <br>
@@ -30,6 +34,8 @@ import PieChart from '@/components/PieChart.vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
+import SharesList from '@/components/SharesList.vue'
+// import SharesListItem from '@/components/SharesListItem.vue';
 
 export default {
   name: 'Home',
@@ -43,7 +49,8 @@ export default {
       chartOpen: false,
       chartData: {},
       pieChartData: {},
-      pieData: false
+      pieData: false,
+      listData: null
     }
   },
   mounted() {
@@ -67,9 +74,11 @@ export default {
       const { _id, ...shares } = userData[0];
       this.numberOfShares = shares;
       const sharePromises = await SharesServices.getSharesPromises(shares)
-      const quotePromises = await this.getQuoteData(shares);
+      const quotePromises = await SharesServices.getQuotePromises(shares)
       const results = await Promise.all(sharePromises);
-      console.log(results);
+      const quoteResults = await Promise.all(quotePromises);
+      this.listData = quoteResults.map(({ 'Global Quote': globalQuote }) => globalQuote)
+      console.log(quoteResults);
       this.prepareData(results, this.chartData);
     },
     openChart(){
@@ -114,7 +123,8 @@ export default {
     },
   components: {
     Charts,
-    PieChart
+    PieChart,
+    SharesList
   }
 }
 </script>
