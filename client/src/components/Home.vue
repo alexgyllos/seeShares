@@ -67,7 +67,9 @@ export default {
       const { _id, ...shares } = userData[0];
       this.numberOfShares = shares;
       const sharePromises = await SharesServices.getSharesPromises(shares)
+      const quotePromises = await this.getQuoteData(shares);
       const results = await Promise.all(sharePromises);
+      console.log(results);
       this.prepareData(results, this.chartData);
     },
     openChart(){
@@ -89,6 +91,12 @@ export default {
       this.totalValue();
       this.prearePieChartData();
     },
+    async getQuoteData(numberOfShares) {
+      const quotePromises = await SharesServices.getQuotePromises(numberOfShares);
+      const results = await Promise.all(quotePromises);
+      console.log(results);
+    },
+
     prearePieChartData(){
       Object.keys(this.numberOfShares).forEach((share) => {
         Object.keys(this.latestValue).forEach(key => {
