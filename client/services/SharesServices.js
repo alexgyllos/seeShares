@@ -9,6 +9,15 @@ export default {
           })
           return sharePromises;
       },
+  getQuotePromises(numberOfShares) {
+    const quotePromises = Object.keys(numberOfShares).map(key => {
+      return fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${key}&apikey=T4AX92YL5PLFI8RV`)
+        .then(res => res.json())
+    })
+    return quotePromises;
+  },
+
+
     getUserData() {
       return fetch(baseURL).then(res => res.json())
     }

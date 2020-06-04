@@ -13,6 +13,10 @@
 
       <br>
 
+      <SharesList v-if="listData"
+                  :listData="listData"
+                  :numberOfShares="numberOfShares"></SharesList>
+
       <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
       <br>
@@ -30,6 +34,8 @@ import PieChart from '@/components/PieChart.vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
+import SharesList from '@/components/SharesList.vue'
+// import SharesListItem from '@/components/SharesListItem.vue';
 
 export default {
   name: 'Home',
@@ -43,7 +49,8 @@ export default {
       chartOpen: false,
       chartData: {},
       pieChartData: {},
-      pieData: false
+      pieData: false,
+      listData: null
     }
   },
   mounted() {
@@ -67,7 +74,11 @@ export default {
       const { _id, ...shares } = userData[0];
       this.numberOfShares = shares;
       const sharePromises = await SharesServices.getSharesPromises(shares)
+      const quotePromises = await SharesServices.getQuotePromises(shares)
       const results = await Promise.all(sharePromises);
+      const quoteResults = await Promise.all(quotePromises);
+      this.listData = quoteResults.map(({ 'Global Quote': globalQuote }) => globalQuote)
+      console.log(quoteResults);
       this.prepareData(results, this.chartData);
     },
     openChart(){
@@ -89,6 +100,12 @@ export default {
       this.totalValue();
       this.prearePieChartData();
     },
+    async getQuoteData(numberOfShares) {
+      const quotePromises = await SharesServices.getQuotePromises(numberOfShares);
+      const results = await Promise.all(quotePromises);
+      console.log(results);
+    },
+
     prearePieChartData(){
       Object.keys(this.numberOfShares).forEach((share) => {
         Object.keys(this.latestValue).forEach(key => {
@@ -106,7 +123,8 @@ export default {
     },
   components: {
     Charts,
-    PieChart
+    PieChart,
+    SharesList
   }
 }
 </script>
