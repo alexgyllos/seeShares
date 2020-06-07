@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="pieChart">
+  <div id="pieChart" class="pieChart">
     <highcharts :options="pieChart"></highcharts>
   </div>
 </template>
@@ -53,4 +53,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
+  .pieChart {
+    /* display: flex; */
+    /* align-self: center; */
+    /* width: 1000px; */
+  }
 </style>

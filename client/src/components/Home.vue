@@ -1,23 +1,29 @@
 <template lang="html">
-  <div class="">
+  <div class="maintContainer">
     <h1>SHARE/\/BOOK</h1>
 
       <div>
 
       <SearchBar></SearchBar>
 
-      <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
-
-      <PieChart :pieChartData="pieChartData" v-if="pieData"></PieChart>
-
-      <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
-      <button type="button" name="button" v-on:click="totalValue()">View</button>
+      <!-- <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p> -->
 
       <br>
 
-      <SharesList v-if="listData"
+      <div class="pie-chart">
+        <PieChart :pieChartData="pieChartData" v-if="pieData"></PieChart>
+      </div>
+
+
+      <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
+      <!-- <button type="button" name="button" v-on:click="totalValue()">View</button> -->
+
+      <br>
+
+      <SharesList class="sharesList" v-if="listData"
                   :listData="listData"
-                  :numberOfShares="numberOfShares"></SharesList>
+                  :numberOfShares="numberOfShares">
+      </SharesList>
 
       <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
 
@@ -125,5 +131,29 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style>
+  html {
+    background-color: rgb(17, 52, 78);
+  }
+
+  .maintContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    align-self: center;
+  }
+
+  .pie-chart {
+    display: flex;
+    align-self: center;
+  }
+
+  .sharesList {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    margin: 10px;
+  }
 </style>

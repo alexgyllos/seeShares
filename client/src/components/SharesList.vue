@@ -24,7 +24,7 @@
                           v-for="share in listItemData"
                           :share="share"
                          ></SharesListItem> -->
-                
+
         </tr>
       </tbody>
     </table>
@@ -77,4 +77,12 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+  td {
+
+  }
+
+  tr {
+    border: 1px solid white;
+  }
 </style>
