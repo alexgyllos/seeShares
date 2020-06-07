@@ -13,10 +13,10 @@ export default {
     return {
       searchTerm: ""
     }
-  }
+  },
   methods: {
     search() {
-      
+
     }
   }
 }
