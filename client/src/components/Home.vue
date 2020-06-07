@@ -4,6 +4,8 @@
 
       <div>
 
+      <SearchBar></SearchBar>
+
       <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p>
 
       <PieChart :pieChartData="pieChartData" v-if="pieData"></PieChart>
@@ -35,6 +37,7 @@ import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
 import SharesList from '@/components/SharesList.vue'
+import SearchBar from '@/components/SearchBar.vue'
 // import SharesListItem from '@/components/SharesListItem.vue';
 
 export default {
@@ -61,12 +64,8 @@ export default {
     totalValue(){
       let total = 0
       Object.keys(this.numberOfShares).forEach((share) => {
-        Object.keys(this.latestValue).forEach(key => {
-          if (share === key) {
-            total += this.numberOfShares[share] * this.latestValue[key]
-          }
+        total += (this.numberOfShares[share] * this.latestValue[share]);
         })
-      })
       return this.result = total ;
     },
     async loadSharesData() {
@@ -108,23 +107,20 @@ export default {
 
     prearePieChartData(){
       Object.keys(this.numberOfShares).forEach((share) => {
-        Object.keys(this.latestValue).forEach(key => {
-          if (share === key) {
-            let newSeries = {
-              name: key,
-              y: this.numberOfShares[share] * this.latestValue[key]
-            }
-            this.pieChartData[share] = newSeries;
-          }
-        })
+        let newSeries = {
+          name: this.latestValue[share],
+          y: this.numberOfShares[share] * this.latestValue[share]
+        }
+        this.pieChartData[share] = newSeries;
       })
-      this.pieData = true;
+      this.pieData=true;
     }
     },
   components: {
     Charts,
     PieChart,
-    SharesList
+    SharesList,
+    SearchBar
   }
 }
 </script>
