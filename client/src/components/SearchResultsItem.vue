@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="item">
+  <!-- <div class="item">
     <div class="resultsSymbol">
       <p>{{result['1. symbol']}}</p>
     </div>
@@ -12,7 +12,7 @@
     <div class="buttons">
       <button type="button" v-on:click="bookIt(numberOfShares)">Book it</button>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>
