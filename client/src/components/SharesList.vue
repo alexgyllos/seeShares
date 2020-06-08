@@ -19,7 +19,7 @@
           <td>{{share['shareNumber']}}</td>
           <td>${{share['shareTotal'] | toFixed(2)}}</td>
           <td>${{share['05. price'] | toFixed(2) }}</td>
-          <td v-bind:style="getColour(share['10. change percent'])">{{share['10. change percent'] | toFixed(2)}}%</td>
+          <td id="24hrchange" v-bind:style="getColour(share['10. change percent'])">{{share['10. change percent'] | toFixed(2)}}%</td>
           <!-- <SharesListItem v-if="listItemData"
                           v-for="share in listItemData"
                           :share="share"
@@ -46,8 +46,13 @@ export default {
   },
   methods: {
     getColour(num) {
-      return num > 0 ? "color:green" : "color:red"
+      const formattedNum = num.slice(0, num.length-1);
+      console.log(formattedNum);
+      return formattedNum > 0 ? "color:green" : "color:red";
     }
+
+    //   return num > 0 ? "color:red" : "color:green"
+    // }
   },
   // data(){
   //   return {
@@ -87,11 +92,17 @@ export default {
 
 <style lang="css" scoped>
 
+
+
   td {
 
   }
 
   tr {
     border: 1px solid white;
+  }
+
+  #24hrchange {
+    font-weight: bold;
   }
 </style>
