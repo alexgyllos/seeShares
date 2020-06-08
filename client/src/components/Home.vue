@@ -83,7 +83,6 @@ export default {
       const results = await Promise.all(sharePromises);
       const quoteResults = await Promise.all(quotePromises);
       this.listData = quoteResults.map(({ 'Global Quote': globalQuote }) => globalQuote)
-      console.log(quoteResults);
       this.prepareData(results, this.chartData);
     },
     openChart(){
@@ -95,10 +94,12 @@ export default {
           '2. Symbol': shareName,
           '3. Last Refreshed': lastRefreshed,
         } = resultObj['Meta Data'];
+        const formatted = lastRefreshed.substring(0, 10);
         chartDataObject[shareName] = {};
         Object.entries(resultObj['Time Series (Daily)']).forEach(([date, info]) => {
           chartDataObject[shareName][date] = Number(info['4. close']);
-          this.latestValue[shareName] = date === lastRefreshed ? Number(info['4. close']) : this.latestValue[shareName]
+          this.latestValue[shareName] = date === formatted ? Number(info['4. close']) : this.latestValue[shareName]
+          console.log(formatted)
           return chartDataObject
         })
       })

@@ -5,8 +5,10 @@ import HighchartsVue from 'highcharts-vue'
 import moment from 'moment'
 import stockInit from 'highcharts/modules/stock';
 import Highcharts from 'highcharts';
+// import darkUnica from "highcharts/themes/dark-unica";
 
-  stockInit(Highcharts);
+// darkUnica(Highcharts);
+stockInit(Highcharts);
 
 
 
