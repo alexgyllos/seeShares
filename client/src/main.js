@@ -17,6 +17,10 @@ Vue.config.productionTip = false
 Vue.use(HighchartsVue)
 Vue.use(moment)
 
+Vue.filter('toFixed', function(value, limit){
+  return value.toFixed(limit);
+});
+
 
 Vue.prototype.moment = moment
 

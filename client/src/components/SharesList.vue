@@ -17,9 +17,9 @@
 
           <td>{{share['01. symbol']}}</td>
           <td>{{share['shareNumber']}}</td>
-          <td>${{share['shareTotal']}}</td>
-          <td>${{share['05. price']}}</td>
-          <td v-bind:style="getColour(share['10. change percent'])">{{share['10. change percent']}}</td>
+          <td>${{share['shareTotal'] | toFixed(2)}}</td>
+          <td>${{share['05. price'] | toFixed(2) }}</td>
+          <td v-bind:style="getColour(share['10. change percent'])">{{share['10. change percent'] | toFixed(2)}}%</td>
           <!-- <SharesListItem v-if="listItemData"
                           v-for="share in listItemData"
                           :share="share"
@@ -68,8 +68,17 @@ export default {
       })
 
     },
-
-
+    filters: {
+        toFixed(value) {
+          if (value[value.length-1] === "%") {
+            const slicedValue = value.slice(0, value.length-1);
+            return Number(slicedValue).toFixed(2);
+          }
+          else {
+            return Number(value).toFixed(2);
+          }
+        }
+    },
   components: {
     // SharesListItem
   }
