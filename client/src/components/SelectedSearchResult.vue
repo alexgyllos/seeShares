@@ -1,7 +1,9 @@
 <template lang="html">
-  <div class="">
-    <p>{{selectedShare['1. symbol']}}</p>
-    <p>{{selectedShare['2. name']}}</p>
+  <div class="inputView">
+    <div class="shareView">
+      <p>{{selectedShare['1. symbol']}}</p>
+      <p>{{selectedShare['2. name']}}</p>
+    </div>
     <div class="numberInput">
       <p class="minus" v-on:click="minus">-</p>
     	<input type="text" value="1" v-model="inputAmount"/>
@@ -35,12 +37,29 @@ export default {
 
 <style lang="css" scoped>
 
-  .numberInput {
+  .inputView {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .shareView {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
+  }
+
+  .shareView p {
+    margin: 20px 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .numberInput {
+    display: flex;
+    /* flex-direction: row; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* align-content: center; */
   }
 
   .numberInput input{
@@ -49,10 +68,8 @@ export default {
     text-align: center;
     font-size: 18px;
   	border: 1px solid white;
-  	/* border-radius:4px; */
     display: inline-block;
     vertical-align: middle;
-    /* margin: 0px 5px; */
     align-self: center;
     user-select: none;
     color: white;
@@ -66,16 +83,13 @@ export default {
   .minus, .plus{
     width:20px;
 		height:23.5px;
-
     background: rgb(7, 37, 62);
-    /* border-radius:4px; */
     padding: 2.5px 15px 0px;
     border:1px solid white;
     display: inline-block;
     vertical-align: middle;
     text-align: center;
     color: white;
-    /* font-size: 20px; */
     font-weight: bold;
     user-select: none;
     transition: 0.2s;
@@ -97,8 +111,8 @@ export default {
   }
 
   button {
-    width: 80px;
-		height: 25px;
+    width: 170px;
+		height: 30px;
     background: rgb(7, 37, 62);
     padding: 5px;
     border:1px solid white;
@@ -106,6 +120,7 @@ export default {
     vertical-align: middle;
     text-align: center;
     color: white;
+    font-size: 18px;
     font-weight: bold;
     user-select: none;
     transition: 0.2s;
