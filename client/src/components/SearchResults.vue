@@ -1,44 +1,48 @@
 <template lang="html">
-  <div class="searchResults">
-    <div class="resultsSymbol">
-      <p v-for="result in searchResults">{{result['1. symbol']}}</p>
-    </div>
-    <div class="resultsName">
-      <p v-for="result in searchResults">{{result['2. name']}}</p>
-    </div>
-    <div class="inputs">
-      <input v-for="result in searchResults" type="number" min="0" name="numberOfShares" value="1" v-bind:value="numberOfShares">
-    </div>
-    <div class="buttons">
-      <button v-for="result in searchResults" type="button" v-on:click="bookIt(numberOfShares)">Book it</button>
-    </div>
-    
-<!--
-    <SearchResultsItem v-for="result in searchResults" :item="item"></SearchResultsItem> -->
+  <div class="">
+    <div v-if="!selectedShare" class="searchResults">
+      <!-- <div class=""> -->
 
-
+        <div class="resultsSymbol">
+          <p v-for="result in searchResults">{{result['1. symbol']}}</p>
+        </div>
+        <div class="resultsName">
+          <p v-for="result in searchResults">{{result['2. name']}}</p>
+        </div>
+        <!-- <div class="inputs">
+          <input v-for="result in searchResults" type="number" min="0" name="numberOfShares" value="1" v-bind:value="numberOfShares">
+        </div> -->
+        <div class="buttons">
+          <button v-for="result in searchResults" type="button" v-on:click="select(result)">Select</button>
+        </div>
+      <!-- </div> -->
+    </div>
+    <div class="">
+      <SelectedSearchResult v-if="selectedShare" :selectedShare="selectedShare"></SelectedSearchResult>
+    </div>
   </div>
+
 
 </template>
 
 <script>
-import SearchResultsItem from '@/components/SearchResultsItem.vue'
+import SelectedSearchResult from '@/components/SelectedSearchResult.vue'
 
 export default {
   name: 'SearchResults',
   props: ['searchResults'],
   data() {
     return {
-      numberOfShares: 1
+      selectedShare: null
     }
   },
   methods: {
-    bookIt(numberOfShares) {
-      console.log(numberOfShares);
+    select(share) {
+      this.selectedShare = share;
     }
   },
   components: {
-    SearchResultsItem
+    SelectedSearchResult
   }
 
 }
