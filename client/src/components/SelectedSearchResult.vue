@@ -7,6 +7,7 @@
     	<input type="text" value="1" v-model="inputAmount"/>
     	<p class="plus" v-on:click="plus">+</p>
     </div>
+    <button type="button" name="button">BookIt</button>
   </div>
 </template>
 
@@ -77,6 +78,7 @@ export default {
     /* font-size: 20px; */
     font-weight: bold;
     user-select: none;
+    transition: 0.2s;
   }
 
   .minus:hover, .plus:hover {
@@ -93,4 +95,27 @@ export default {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
   }
+
+  button {
+    width: 80px;
+		height: 25px;
+    background: rgb(7, 37, 62);
+    padding: 5px;
+    border:1px solid white;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    user-select: none;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    font-style: italic;
+    cursor: pointer;
+    background-color: rgb(36, 75, 105);
+  }
+
+
 </style>
