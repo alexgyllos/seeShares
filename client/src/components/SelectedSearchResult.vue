@@ -9,11 +9,13 @@
     	<input type="text" value="1" v-model="inputAmount"/>
     	<p class="plus" v-on:click="plus">+</p>
     </div>
-    <button type="button" name="button">BookIt</button>
+    <button type="button" name="button" @click="bookIt">BookIt</button>
   </div>
 </template>
 
 <script>
+
+import {eventBus} from '@/main.js'
 export default {
   name: 'SelectedSearchResult',
   props: ['selectedShare'],
@@ -30,6 +32,11 @@ export default {
       if (this.inputAmount >= 2) {
       this.inputAmount -= 1;
       }
+    },
+    bookIt() {
+      let shareSymbol = this.selectedShare['1. symbol'];
+      let newShare = { [shareSymbol]: this.inputAmount };
+      eventBus.$emit('selected-share', newShare);
     }
   }
 }

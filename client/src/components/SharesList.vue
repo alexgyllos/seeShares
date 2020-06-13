@@ -47,7 +47,7 @@ export default {
   methods: {
     getColour(num) {
       const formattedNum = num.slice(0, num.length-1);
-      console.log(formattedNum);
+    
       return formattedNum > 0 ? "color:green" : "color:red";
     }
 

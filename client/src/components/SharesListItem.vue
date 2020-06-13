@@ -16,8 +16,7 @@ export default {
   props: ['share'],
   filters: {
     toFixed(value) {
-      console.log(Number(value));
-      console.log(value);
+      
       return Number(value).toFixed(2);
     }
 

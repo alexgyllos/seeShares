@@ -16,9 +16,17 @@ export default {
     })
     return quotePromises;
   },
-
-
     getUserData() {
       return fetch(baseURL).then(res => res.json())
+    },
+    async updateUserShares(id, payload) {
+      const updatedShares = await fetch(baseURL + id, {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+      })
+      const result = await updatedShares.json();
+      return result; 
+
     }
   }

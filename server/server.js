@@ -16,12 +16,6 @@ MongoClient.connect('mongodb://localhost:27017')
   const sharesRouter = createRouter(sharesCollection);
   app.use('/api/shares', sharesRouter)
 
-  const symbolsDb = client.db('symbols_db');
-
-  const symbolsCollection = db.collection('symbols');
-  const symbolsRouter = createRouter(symbolsCollection);
-  app.use('/api/symbols', symbolsRouter)
-
 })
 .catch(console.error);
 
