@@ -13,28 +13,41 @@ export default {
   data() {
     return {
       pieChart: {
+        chart: {
+          backgroundColor: "rgba(256, 256, 256, 0)",
+          // plotBackgroundColor: "rgb(5, 5, 5)",
+        // plotBorderWidth: "2000px",
+        // plotShadow: true,
+        // borderColor: 'black',
+        // borderWidth: 5,
+        colors: ['blue', 'red', 'yellow']
+        },
         title: {
-          text: 'My Shares'
+          text: 'My Shares',
+          style: {
+            fontFamily: "Avenir, Helvetica, Arial, sans-serif",
+            fontSize: "1.8em",
+            fontWeight: "bold",
+            color: "white"
+          }
         },
         type: 'pie',
-        series: [
-          {
+        series:
+        [{
           name: 'Value',
-          colorByPoint: true,
+          borderColor: 'rgba(256, 256, 256, 1)',
+          borderWidth: 1.5,
+          color: 'blue',
+          allowPointSelect: true,
+          tooltip: {
+            valuePrefix: '$',
+            valueDecimals: 2,
+            stickOnContact: true,
+            distance: -80
+          },
+          // colorByPoint: true,
           type: 'pie',
           data: [
-          // {
-          //   name: 'FB',
-          //   y: 30
-          // },
-          // {
-          //   name: 'IBM',
-          //   y: 70
-          // },
-          // {
-          //   name: 'BA',
-          //   y: 10
-          // }
           ]
         }]
       }
@@ -53,9 +66,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  .pieChart {
-    /* display: flex; */
-    /* align-self: center; */
-    /* width: 1000px; */
-  }
+
 </style>

@@ -1,8 +1,8 @@
 <template lang="html">
   <div>
-    <input v-model="searchTerm">
-    <button v-on:click="search">Search!</button>
-    <div v-if="!searchResults">Waiting...</div>
+    <input v-model="searchTerm" v-on:keyup.enter="search">
+    <button v-on:click="search">Search</button>
+    <!-- <div v-if="!searchResults">Waiting...</div> -->
     <SearchResults v-if="searchResults" :searchResults="searchResults"></SearchResults>
   </div>
 
@@ -35,4 +35,43 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+  input {
+    width: 170px;
+    height: 18px;
+    background: white;
+    padding: 5px;
+    border:1px solid white;
+    display: inline-block;
+    vertical-align: middle;
+    /* text-align: center; */
+    color: rgb(7, 37, 62);
+    font-size: 18px;
+    /* font-weight: bold; */
+    user-select: none;
+    transition: 0.2s;
+  }
+
+  button {
+    width: 100px;
+    height: 30px;
+    background: rgb(7, 37, 62);
+    padding: 5px;
+    border:1px solid white;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    user-select: none;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    font-style: italic;
+    cursor: pointer;
+    /* background-color: rgb(36, 75, 105); */
+  }
+
 </style>

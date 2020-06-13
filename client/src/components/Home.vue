@@ -1,38 +1,39 @@
 <template lang="html">
-  <div class="maintContainer">
-    <h1>SHARE/\/BOOK</h1>
-
-      <div>
-
+  <div class="">
+    <div class="navigation">
+      <h1>SEESHARES/\/</h1>
       <SearchBar></SearchBar>
+    </div>
+    <div class="maintContainer">
+        <div>
+        <!-- <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p> -->
 
-      <!-- <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p> -->
+        <br>
 
-      <br>
+        <div class="pie-chart">
+          <PieChart :pieChartData="pieChartData" v-if="pieData" :key="pieChartComponent"></PieChart>
+        </div>
 
-      <div class="pie-chart">
-        <PieChart :pieChartData="pieChartData" v-if="pieData" :key="pieChartComponent"></PieChart>
+
+        <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
+        <!-- <button type="button" name="button" v-on:click="totalValue()">View</button> -->
+
+        <br>
+
+        <SharesList class="sharesList" v-if="listData"
+                    :listData="listData"
+                    :numberOfShares="numberOfShares"
+                    :key="sharesListComponent">
+        </SharesList>
+
+        <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
+
+        <br>
+
+        <Charts :chartData="chartData" v-if="chartOpen"></Charts>
       </div>
 
-
-      <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
-      <!-- <button type="button" name="button" v-on:click="totalValue()">View</button> -->
-
-      <br>
-
-      <SharesList class="sharesList" v-if="listData"
-                  :listData="listData"
-                  :numberOfShares="numberOfShares"
-                  :key="sharesListComponent">
-      </SharesList>
-
-      <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
-
-      <br>
-
-      <Charts :chartData="chartData" v-if="chartOpen"></Charts>
     </div>
-
   </div>
 </template>
 
@@ -63,7 +64,13 @@ export default {
       listData: null,
       databaseShares: null,
       pieChartComponent: 0,
-      sharesListComponent: 0
+      sharesListComponent: 0,
+      pieChartColors: [,
+                       'rgba(241, 250, 238, 1)',
+                       'rgba(168, 218, 220, 1)',
+                       'rgba(230, 57, 70, 1)',
+                       'rgba(69, 123, 157, 1)',
+                       'rgba(29, 53, 87, 1)']
     }
   },
   mounted() {
@@ -162,7 +169,8 @@ export default {
 
         let newSeries = {
           name: share,
-          y: this.numberOfShares[share] * this.latestValue[share]
+          y: this.numberOfShares[share] * this.latestValue[share],
+          color: this.pieChartColors.pop()
         }
         this.pieChartData[share] = newSeries;
       })
@@ -186,6 +194,20 @@ export default {
 <style>
   html {
     background-color: rgb(17, 52, 78);
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+  }
+
+  .navigation {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      align-content: center;
+      justify-content: space-between;
+      /* height: 100vh; */
+      padding: 0;
+      margin: 0;
   }
 
   .maintContainer {
@@ -195,6 +217,9 @@ export default {
     align-items: center;
     align-content: center;
     align-self: center;
+    /* height: 100vh; */
+    padding: 0;
+    margin: 0;
   }
 
   .pie-chart {
