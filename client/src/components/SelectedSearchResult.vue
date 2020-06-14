@@ -1,8 +1,7 @@
 <template lang="html">
   <div class="inputView">
     <div class="shareView">
-      <p>{{selectedShare['1. symbol']}}</p>
-      <p>{{selectedShare['2. name']}}</p>
+      <p>{{selectedShare['2. name']}} ({{selectedShare['1. symbol']}})</p>
     </div>
     <div class="numberInput">
       <p class="minus" v-on:click="minus">-</p>

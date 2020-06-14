@@ -1,39 +1,44 @@
 <template lang="html">
-  <div class="">
+  <div class="layout">
     <div class="navigation">
-      <h1>SEESHARES/\/</h1>
-      <SearchBar></SearchBar>
-    </div>
-    <div class="maintContainer">
-        <div>
-        <!-- <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p> -->
+      <div class="logo">
+        <img src="../../public/logo1.png" alt=""><h1>seeShares</h1>
+      </div>
+      <div class="maintContainer">
+          <div>
+          <!-- <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p> -->
 
-        <br>
+          <br>
 
-        <div class="pie-chart">
-          <PieChart :pieChartData="pieChartData" v-if="pieData" :key="pieChartComponent"></PieChart>
+          <div class="pie-chart">
+            <PieChart :pieChartData="pieChartData" v-if="pieData" :key="pieChartComponent" :result="result"></PieChart>
+          </div>
+
+
+          <!-- <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p> -->
+          <!-- <button type="button" name="button" v-on:click="totalValue()">View</button> -->
+
+          <br>
+
+          <SharesList class="sharesList" v-if="listData"
+                      :listData="listData"
+                      :numberOfShares="numberOfShares"
+                      :key="sharesListComponent">
+          </SharesList>
+
+          <button class="stockChartButton" type="button" name="button" v-on:click="openChart()">Stock Chart</button>
+
+          <br>
+
+          <Charts :chartData="chartData" v-if="chartOpen"></Charts>
         </div>
 
-
-        <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p>
-        <!-- <button type="button" name="button" v-on:click="totalValue()">View</button> -->
-
-        <br>
-
-        <SharesList class="sharesList" v-if="listData"
-                    :listData="listData"
-                    :numberOfShares="numberOfShares"
-                    :key="sharesListComponent">
-        </SharesList>
-
-        <button type="button" name="button" v-on:click="openChart()">Open the CHART</button>
-
-        <br>
-
-        <Charts :chartData="chartData" v-if="chartOpen"></Charts>
       </div>
-
     </div>
+    <div class="searchColumn">
+      <SearchBar></SearchBar>
+    </div>
+
   </div>
 </template>
 
@@ -199,15 +204,61 @@ export default {
     margin: 0;
   }
 
-  .navigation {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      align-content: center;
-      justify-content: space-between;
-      /* height: 100vh; */
+  h1 {
+      font-size: 2.8em;
       padding: 0;
       margin: 0;
+  }
+
+  img {
+    height: 50px;
+    width: 50px;
+    /* display: inline-block; */
+    /* flex-direction: row; */
+    /* align-self: center; */
+    /* margin-top:  */
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: center;
+  }
+
+  .layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+
+
+  .navigation {
+      display: flex;
+      flex-direction: column;
+      /* align-self: baseline;
+      align-items: center;
+      align-content: center;
+      justify-content: center; */
+      /* height: 100vh; */
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0;
+      /* margin: 50px; */
+  }
+
+  .searchColumn {
+    width: -500px;
+    display: flex;
+    justify-content: center;
+    align-self: stretch;
+    align-content: center;
+    width: 30%;
+    /* background-color: grey; */
+    border-left: 1px solid white;
+
   }
 
   .maintContainer {
@@ -224,7 +275,10 @@ export default {
 
   .pie-chart {
     display: flex;
+    flex-direction: row;
     align-self: center;
+    align-items: center;
+
   }
 
   .sharesList {
@@ -232,5 +286,32 @@ export default {
     align-self: center;
     justify-content: center;
     margin: 10px;
+  }
+
+  .stockChartButton {
+    margin: 10px;
+  }
+
+  button {
+    width: 150px;
+    height: 30px;
+    background: rgb(7, 37, 62);
+    padding: 5px;
+    border:1px solid white;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    user-select: none;
+    transition: 0.2s;
+    /* margin: 10px; */
+  }
+
+  button:hover {
+    font-style: italic;
+    cursor: pointer;
+    /* background-color: rgb(36, 75, 105); */
   }
 </style>

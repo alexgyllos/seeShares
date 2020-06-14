@@ -9,21 +9,21 @@ import {Chart} from 'highcharts-vue'
 
 export default {
   name: 'PieChart',
-  props: ["pieChartData"],
+  props: ["pieChartData", "result"],
   data() {
     return {
       pieChart: {
         chart: {
-          backgroundColor: "rgba(256, 256, 256, 0)",
+          backgroundColor: "rgba(256, 256, 256, 0)"
           // plotBackgroundColor: "rgb(5, 5, 5)",
         // plotBorderWidth: "2000px",
         // plotShadow: true,
         // borderColor: 'black',
         // borderWidth: 5,
-        colors: ['blue', 'red', 'yellow']
+
         },
         title: {
-          text: 'My Shares',
+          text: `Total Value: $${this.result.toFixed(2)}`,
           style: {
             fontFamily: "Avenir, Helvetica, Arial, sans-serif",
             fontSize: "1.8em",
@@ -66,5 +66,16 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+  #pieChart {
+    /* display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    align-content: center; */
+    margin-left: auto;
+    margin-right: auto;
+  }
 
 </style>

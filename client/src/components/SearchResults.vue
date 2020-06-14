@@ -3,18 +3,21 @@
     <div v-if="!selectedShare" class="searchResults">
       <!-- <div class=""> -->
 
-        <div class="resultsSymbol">
+        <!-- <div class="resultsSymbol">
           <p v-for="result in searchResults">{{result['1. symbol']}}</p>
-        </div>
+        </div> -->
         <div class="resultsName">
-          <p v-for="result in searchResults">{{result['2. name']}}</p>
+          <p v-for="result in searchResults" v-on:click="select(result)">{{result['2. name']}} ({{result['1. symbol']}})
+            <!-- <button type="button" name="button" v-on:click="select(result)">Select</button> -->
+          </p>
+
         </div>
         <!-- <div class="inputs">
           <input v-for="result in searchResults" type="number" min="0" name="numberOfShares" value="1" v-bind:value="numberOfShares">
         </div> -->
-        <div class="buttons">
+        <!-- <div class="buttons">
           <button v-for="result in searchResults" type="button" v-on:click="select(result)">Select</button>
-        </div>
+        </div> -->
       <!-- </div> -->
     </div>
     <div class="">
@@ -59,7 +62,7 @@ export default {
     align-content: center;
     align-self: center;
     /* border: 1px solid black; */
-    margin: 20px;
+    margin-top: 20px;
 
   }
 
@@ -88,13 +91,23 @@ export default {
   .resultsName {
     display: flex;
     flex-direction: column;
-    margin-right: 100px;
+    margin-right: 10px;
+    /* margin-top: */
   }
 
   .resultsName p {
-    margin: 0px;
-    text-align: left;
+    margin: 0px 0px 1px 0px;
+    padding: 4px;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
     /* border: 1px solid black; */
+    transition: 0.1s;
+  }
+
+  .resultsName p:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
 
   .inputs input {
@@ -112,8 +125,32 @@ export default {
   .buttons {
     display: flex;
     flex-direction: column;
+    align-self: flex-start;
     /* border: 1px solid black; */
 
+  }
+
+  button {
+    width: 80px;
+		height: 30px;
+    background: rgb(7, 37, 62);
+    padding: 5px;
+    border:1px solid white;
+    /* display: inline-block; */
+    /* vertical-align: middle; */
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    user-select: none;
+    transition: 0.2s;
+    /* margin-bottom: 1px; */
+  }
+
+  button:hover {
+    font-style: italic;
+    cursor: pointer;
+    background-color: rgb(36, 75, 105);
   }
 
 </style>

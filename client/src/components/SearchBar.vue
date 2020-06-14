@@ -1,7 +1,10 @@
 <template lang="html">
-  <div>
-    <input v-model="searchTerm" v-on:keyup.enter="search">
-    <button v-on:click="search">Search</button>
+  <div class="search">
+    <div class="searchBar">
+      <input v-model="searchTerm" v-on:keyup.enter="search">
+      <button v-on:click="search">Search</button>
+    </div>
+
     <!-- <div v-if="!searchResults">Waiting...</div> -->
     <SearchResults v-if="searchResults" :searchResults="searchResults"></SearchResults>
   </div>
@@ -72,6 +75,15 @@ export default {
     font-style: italic;
     cursor: pointer;
     /* background-color: rgb(36, 75, 105); */
+  }
+
+  .search {
+    display: flex;
+    flex-direction: column;
+    /* width: 35%; */
+    /* margin: 15px; */
+    /* border: 1px solid white; */
+    margin-top: 80px;
   }
 
 </style>

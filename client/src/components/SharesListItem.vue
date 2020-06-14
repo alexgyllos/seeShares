@@ -6,22 +6,28 @@
     <td>{{share['05. price'] | toFixed(2) }}</td>
     <td>{{ share['10. change percent'] | toFixed(2) }}</td>
 
+    <ListItemChart v-if="selectedChart"></ListItemChart>
   </div>
 
 </template>
 
 <script>
+import ListItemChart from '@/components/ListItemChart.vue'
+
 export default {
   name: 'ShareListItem',
   props: ['share'],
   filters: {
     toFixed(value) {
-      
+
       return Number(value).toFixed(2);
     }
 
 
-}
+  },
+  components: {
+    ListItemChart
+  }
 </script>
 
 <style lang="css" scoped>

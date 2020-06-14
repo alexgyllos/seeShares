@@ -4,6 +4,6 @@ db.dropDatabase();
 db.shares.insertMany([
   {
     // 'FB': 5,
-    'IBM': 300
+    // 'IBM': 300
   }
 ]);

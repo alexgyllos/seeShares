@@ -2,7 +2,7 @@
   <div class="">
 
     <div id='one-day-chart'>
-      <button type="button" name="button" v-on:click="showChart('Multi-Day Chart')">Multi-Day Chart</button>
+      <!-- <button type="button" name="button" v-on:click="showChart('Multi-Day Chart')">Multi-Day Chart</button> -->
     <highcharts :options='chart2' :constructor-type="'stockChart'" v-if="currentChart === 'Multi-Day Chart'"></highcharts>
 
 
@@ -27,16 +27,49 @@ export default {
   data() {
     return {
       chart2: {
-        title: { text: 'Multi-Day Chart' },
+      chart: {
+        backgroundColor: "rgba(256, 256, 256, 0)",
+        style: {
+          fontFamily: "Avenir, Helvetica, Arial, sans-serif",
+          // fontSize: "1.8em",
+          // fontWeight: "bold",
+          color: "white",
+          textAlign: 'center'
+        }
+        },
+        title: {
+        text: 'Multi-Day Chart',
+        style: {
+          fontFamily: "Avenir, Helvetica, Arial, sans-serif",
+          fontSize: "1.8em",
+          fontWeight: "bold",
+          color: "white",
+          textAlign: 'center'
+        }
+        },
         yAxis: {
           title: {
-            text: 'Price $'
+            text: 'Price $',
+            style: {
+              fontFamily: "Avenir, Helvetica, Arial, sans-serif",
+              fontSize: "1.8em",
+              fontWeight: "bold",
+              color: "white",
+              textAlign: 'center'
+            }
           }
         },
         xAxis: {
           type: 'datetime',
           title: {
-            text: 'Date'
+            text: 'Date',
+            style: {
+              fontFamily: "Avenir, Helvetica, Arial, sans-serif",
+              fontSize: "1.8em",
+              fontWeight: "bold",
+              color: "white",
+              textAlign: 'center'
+            }
           }
         },
         tooltip: {
@@ -69,7 +102,7 @@ export default {
         }
         },
         mySeries: [],
-        currentChart: null,
+        currentChart: 'Multi-Day Chart',
         dataFilter: {
           startDate: '2020-05-01',
           endDate: '2020-05-05'
