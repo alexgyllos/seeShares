@@ -38,7 +38,7 @@ export default {
         }
         },
         title: {
-        text: 'Multi-Day Chart',
+        text: 'Total Value:',
         style: {
           fontFamily: "Avenir, Helvetica, Arial, sans-serif",
           fontSize: "1.8em",
@@ -62,7 +62,7 @@ export default {
         xAxis: {
           type: 'datetime',
           title: {
-            text: 'Date',
+            // text: 'Date',
             style: {
               fontFamily: "Avenir, Helvetica, Arial, sans-serif",
               fontSize: "1.8em",
@@ -136,4 +136,8 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+  #one-day-chart {
+    /* width: 800px; */
+  }
 </style>

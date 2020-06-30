@@ -10,9 +10,25 @@
 
           <br>
 
-          <div class="pie-chart">
-            <PieChart :pieChartData="pieChartData" v-if="pieData" :key="pieChartComponent" :result="result"></PieChart>
+          <div class="slider">
+            <a href="#slide-1">pie</a>
+            <a href="#slide-2">stock</a>
+
+            <div class="slides">
+              <div class="pie-chart" id="slide-1">
+                <PieChart :pieChartData="pieChartData" v-if="pieData" :key="pieChartComponent" :result="result"></PieChart>
+              </div>
+
+              <div class="stock-chart" id="slide-2">
+                <Charts :chartData="chartData" v-if="chartOpen"></Charts>
+              </div>
+            </div>
           </div>
+
+
+          <!-- <button class="stockChartButton" type="button" name="button" v-on:click="openChart()">Stock Chart</button> -->
+
+          <br>
 
 
           <!-- <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p> -->
@@ -26,11 +42,6 @@
                       :key="sharesListComponent">
           </SharesList>
 
-          <button class="stockChartButton" type="button" name="button" v-on:click="openChart()">Stock Chart</button>
-
-          <br>
-
-          <Charts :chartData="chartData" v-if="chartOpen"></Charts>
         </div>
 
       </div>
@@ -162,6 +173,7 @@ export default {
       })
       this.totalValue();
       this.prearePieChartData();
+      this.openChart();
     },
     async getQuoteData(numberOfShares) {
       const quotePromises = await SharesServices.getQuotePromises(numberOfShares);
@@ -314,4 +326,79 @@ export default {
     cursor: pointer;
     /* background-color: rgb(36, 75, 105); */
   }
+
+  .slider {
+  width: 850px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+
+
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  /*
+  scroll-snap-points-x: repeat(300px);
+  scroll-snap-type: mandatory;
+  */
+}
+
+.slides::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.slides::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 10px;
+}
+.slides::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.slides > div {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 850px;
+  height: 400px;
+  margin-right: 50px;
+  border-radius: 10px;
+  background: #eee;
+  transform-origin: center center;
+  transform: scale(1);
+  transition: transform 0.5s;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 100px; */
+}
+.slides > div:target {
+  /* transform: scale(0.8); */
+}
+
+.slider > a {
+  display: inline-flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: white;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 0 0.5rem 0;
+  position: relative;
+}
+.slider > a:active {
+  top: 1px;
+}
+.slider > a:focus {
+  background: #000;
+}
 </style>

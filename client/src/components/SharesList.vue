@@ -28,7 +28,9 @@
                             :share="share"
                            ></SharesListItem> -->
 
-            <ListItemChart v-if="selectedChart"></ListItemChart>
+            <!-- <td>
+              <ListItemChart v-if="selectedChart"></ListItemChart>
+            </td> -->
 
 
         </tr>
