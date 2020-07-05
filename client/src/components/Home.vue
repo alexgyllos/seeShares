@@ -1,9 +1,10 @@
 <template lang="html">
   <div class="layout">
+    <div class="logo">
+      <img src="../../public/logo1.png" alt=""><h1>seeShares</h1>
+    </div>
     <div class="navigation">
-      <div class="logo">
-        <img src="../../public/logo1.png" alt=""><h1>seeShares</h1>
-      </div>
+
       <div class="maintContainer">
           <div>
           <!-- <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p> -->
@@ -233,13 +234,16 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
-    align-self: center;
+    align-self: baseline;
+    /* margin-right: 100px; */
   }
 
   .layout {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+    align-content: center;
     height: 100%;
     width: 100%;
   }
@@ -248,24 +252,28 @@ export default {
   .navigation {
       display: flex;
       flex-direction: column;
-      /* align-self: baseline;
+      justify-content: center;
       align-items: center;
       align-content: center;
-      justify-content: center; */
+      /* align-self: baseline; */
+      /* justify-content: center; */
       /* height: 100vh; */
-      margin-left: auto;
-      margin-right: auto;
+      /* margin-left: 10%; */
+      /* margin-right: 15%; */
+      margin-top: 3%;
       padding: 0;
       /* margin: 50px; */
   }
 
   .searchColumn {
-    width: -500px;
+    /* width: -500px; */
     display: flex;
     justify-content: center;
     align-self: stretch;
     align-content: center;
-    width: 30%;
+    width: 20%;
+    /* margin-left: auto;
+    margin-right: auto; */
     /* background-color: grey; */
     border-left: 1px solid white;
 
@@ -329,6 +337,10 @@ export default {
   width: 850px;
   text-align: center;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
 }
 
 .slides {

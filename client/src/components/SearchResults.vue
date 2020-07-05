@@ -106,7 +106,8 @@ export default {
   }
 
   .resultsName p:hover {
-    text-decoration: underline;
+    background: white;
+    color: rgb(7, 37, 62);
     cursor: pointer;
   }
 

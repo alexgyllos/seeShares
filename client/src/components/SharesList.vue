@@ -23,7 +23,8 @@
             <td>${{share['shareTotal'] | toFixed(2)}}</td>
             <td>${{share['05. price'] | toFixed(2) }}</td>
             <td id="24hrchange" v-bind:style="getColour(share['10. change percent'])">{{share['10. change percent'] | toFixed(2)}}%</td>
-            <td><button type="button" name="button" v-on:click="removeShare(share)">remove</button> </td>
+            <img class="removeButton" src="../../public/trash.png" alt="" v-on:click="removeShare(share)">
+            <!-- <td><button type="button" name="button" v-on:click="removeShare(share)">remove</button> </td> -->
             <!-- <SharesListItem v-if="listItemData"
                             v-for="share in listItemData"
                             :share="share"
@@ -144,7 +145,30 @@ export default {
   }
 
   tr:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
+    /* cursor: pointer; */
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .removeButton {
+    /* width: 40px;
+    height: 40px; */
+    background: white;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-self: center;
+    margin-left: 10px;
+    /* position: absolute; */
+    transition: 0.2s;
+  }
+
+  .removeButton:hover {
+    background: rgba(222, 133, 126, 1);
     cursor: pointer;
   }
 

@@ -53,6 +53,8 @@ export default {
     /* font-weight: bold; */
     user-select: none;
     transition: 0.2s;
+    margin-left: auto;
+    /* margin-right: */
   }
 
   button {
@@ -69,6 +71,7 @@ export default {
     font-weight: bold;
     user-select: none;
     transition: 0.2s;
+    /* margin-right: 50%; */
   }
 
   button:hover {
@@ -84,6 +87,19 @@ export default {
     /* margin: 15px; */
     /* border: 1px solid white; */
     margin-top: 80px;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+  }
+
+  .searchBar {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    /* margin-left: auto; */
+    /* margin-right: 50%; */
   }
 
 </style>
