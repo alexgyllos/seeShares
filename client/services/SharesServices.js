@@ -1,6 +1,18 @@
 const baseURL = "http://localhost:3000/api/shares/"
+const historicalDataURL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&interval=30min&apikey=P3TR43K4R4WKZ1YU&symbol=";
+const latestDataURL = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&apikey=T4AX92YL5PLFI8RV&symbol="
 
 export default {
+  getPromises(numberOfShares) {
+    
+  }
+
+
+
+
+
+
+
   getSharesPromises(numberOfShares) {
     const sharePromises = Object.keys(numberOfShares).map(key => {
       return fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${key}&interval=30min&apikey=P3TR43K4R4WKZ1YU`)
@@ -26,6 +38,8 @@ export default {
       })
       const result = await updatedShares.json();
       return result;
+    },
+    async deleteShare() {
 
     }
   }

@@ -71,6 +71,7 @@ export default {
   data() {
     return {
       numberOfShares: null,
+      id: null,
       total: null,
       latestValue: {},
       componentLoaded: false,
@@ -111,9 +112,8 @@ export default {
     })
 
     eventBus.$on('removed-share', async removedShare => {
-      console.log(removedShare);
-      const updatedShares = this.databaseShares
-      console.log(updatedShares);
+      const { removedShare, ...otherShares } = this.numberOfShares;
+
     })
 
   },

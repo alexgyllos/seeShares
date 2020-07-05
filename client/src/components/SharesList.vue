@@ -69,7 +69,7 @@ export default {
     },
     removeShare(share) {
       let removedShare = share;
-      eventBus.$emit('removed-share', removedShare);
+      eventBus.$emit('removed-share', removedShare['01. symbol']);
       // console.log(removedShare);
     }
   },
