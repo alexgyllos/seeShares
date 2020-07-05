@@ -23,7 +23,7 @@ import { eventBus } from '../main.js';
 
 export default {
   name: 'Charts',
-  props: ["chartData"],
+  props: ["chartData", "result"],
   data() {
     return {
       chart2: {
@@ -38,7 +38,7 @@ export default {
         }
         },
         title: {
-        text: 'Total Value:',
+        text: `Total Value: $${this.result.toFixed(2)}`,
         style: {
           fontFamily: "Avenir, Helvetica, Arial, sans-serif",
           fontSize: "1.8em",
@@ -49,7 +49,7 @@ export default {
         },
         yAxis: {
           title: {
-            text: 'Price $',
+            // text: 'Price $',
             style: {
               fontFamily: "Avenir, Helvetica, Arial, sans-serif",
               fontSize: "1.8em",
@@ -128,7 +128,7 @@ export default {
           };
           this.chart2.series.push(newSeries);
         })
-        this.highcharts.redraw();
+        // this.highcharts.redraw();
       }
   }
 

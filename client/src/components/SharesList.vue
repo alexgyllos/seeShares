@@ -23,6 +23,7 @@
             <td>${{share['shareTotal'] | toFixed(2)}}</td>
             <td>${{share['05. price'] | toFixed(2) }}</td>
             <td id="24hrchange" v-bind:style="getColour(share['10. change percent'])">{{share['10. change percent'] | toFixed(2)}}%</td>
+            <td><button type="button" name="button" v-on:click="removeShare(share)">remove</button> </td>
             <!-- <SharesListItem v-if="listItemData"
                             v-for="share in listItemData"
                             :share="share"
@@ -49,7 +50,7 @@
 // import SharesListItem from '@/components/SharesListItem.vue'
 
 import ListItemChart from '@/components/ListItemChart.vue'
-
+import { eventBus } from '../main.js';
 
 export default {
   name: 'SharesList',
@@ -65,16 +66,13 @@ export default {
       const formattedNum = num.slice(0, num.length-1);
 
       return formattedNum > 0 ? "color:green" : "color:red";
+    },
+    removeShare(share) {
+      let removedShare = share;
+      eventBus.$emit('removed-share', removedShare);
+      // console.log(removedShare);
     }
-
-    //   return num > 0 ? "color:red" : "color:green"
-    // }
   },
-  // data(){
-  //   return {
-  //
-  //   }
-  // },
   mounted() {
 
     this.listItemData = this.listData.map(dataObj => {
@@ -89,19 +87,17 @@ export default {
       })
 
     },
-    filters: {
-        toFixed(value) {
-          if (value[value.length-1] === "%") {
-            const slicedValue = value.slice(0, value.length-1);
-            return Number(slicedValue).toFixed(2);
-          }
+  filters: {
+    toFixed(value) {
+      if (value[value.length-1] === "%") {
+        const slicedValue = value.slice(0, value.length-1);          return Number(slicedValue).toFixed(2);
+        }
           else {
             return Number(value).toFixed(2);
           }
-        }
-    },
+    }
+  },
   components: {
-    // SharesListItem
         ListItemChart
   }
 }

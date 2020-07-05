@@ -11,8 +11,10 @@
           <br>
 
           <div class="slider">
-            <a href="#slide-1">pie</a>
-            <a href="#slide-2">stock</a>
+            <div class="links">
+              <a href="#slide-1"><img src="../../public/pie-chart.png" alt="pie chart link"></a>
+              <a href="#slide-2"><img src="../../public/graph.png" alt="graph link"></a>
+            </div>
 
             <div class="slides">
               <div class="pie-chart" id="slide-1">
@@ -20,7 +22,7 @@
               </div>
 
               <div class="stock-chart" id="slide-2">
-                <Charts :chartData="chartData" v-if="chartOpen"></Charts>
+                <Charts :chartData="chartData" :result="result" v-if="chartOpen" :key="stockChartComponent"></Charts>
               </div>
             </div>
           </div>
@@ -80,6 +82,7 @@ export default {
       listData: null,
       databaseShares: null,
       pieChartComponent: 0,
+      stockChartComponent: 0,
       sharesListComponent: 0,
       pieChartColors: [,
                        'rgba(241, 250, 238, 1)',
@@ -91,7 +94,7 @@ export default {
   },
   mounted() {
     this.loadSharesData();
-    // this.prearePieChartData();
+
     eventBus.$on('selected-share', async newShare => {
       const updatedShares = { ...newShare, ...this.databaseShares };
       const { _id, ...shares } = updatedShares;
@@ -103,18 +106,15 @@ export default {
       const { 'Global Quote': globalQuote } = newListItem[0];
       this.listData.push(globalQuote);
       this.rerenderSharesList();
-      // quoteResults.map(({ 'Global Quote': globalQuote }) => globalQuote);
       this.rerenderPieChart();
-
-
-      // const updatedShares = { ...newShare, ...this.databaseShares };
-      // const { _id, ...shares } = updatedShares;
-      // this.databaseShares = await SharesServices.updateUserShares(_id, shares);
-      // const result = await this.getHistoricSharesData(shares);
-      // this.getQuoteSharesData(shares);
-      // this.prepareData(results, this.chartData);
+      this.rerenderStockChart();
     })
 
+    eventBus.$on('removed-share', async removedShare => {
+      console.log(removedShare);
+      const updatedShares = this.databaseShares
+      console.log(updatedShares);
+    })
 
   },
   methods: {
@@ -130,6 +130,9 @@ export default {
     },
     rerenderSharesList() {
       this.sharesListComponent += 1;
+    },
+    rerenderStockChart() {
+      this.stockChartComponent += 1;
     },
     async loadSharesData() {
       const userData = await SharesServices.getUserData();
@@ -193,11 +196,6 @@ export default {
       })
       this.pieData=true;
     }
-
-
-
-
-
     },
   components: {
     Charts,
@@ -355,7 +353,7 @@ export default {
   height: 10px;
 }
 .slides::-webkit-scrollbar-thumb {
-  background: black;
+  background: rgba(255, 255, 255, 1);
   border-radius: 10px;
 }
 .slides::-webkit-scrollbar-track {
@@ -369,7 +367,7 @@ export default {
   height: 400px;
   margin-right: 50px;
   border-radius: 10px;
-  background: #eee;
+  background: rgba(0, 0, 0, 0.2);
   transform-origin: center center;
   transform: scale(1);
   transition: transform 0.5s;
@@ -399,6 +397,33 @@ export default {
   top: 1px;
 }
 .slider > a:focus {
-  background: #000;
+  background: lightgrey;
+}
+
+a {
+  display: inline-flex;
+  /* width: 100%; */
+  height: 100%;
+  background: white;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 0 0.5rem 0;
+  position: relative;
+  margin: 0px 10px 10px 10px;
+  padding: 10px;
+  transition: 0.2s;
+  /* border: 1px solid white; */
+}
+
+a:hover {
+  background: lightblue;
+  /* border: 1px solid white; */
+}
+
+a > img {
+  height: 30px;
+  width: 30px;
 }
 </style>
