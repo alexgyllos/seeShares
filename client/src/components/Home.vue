@@ -22,7 +22,7 @@
               </div>
 
               <div class="stock-chart" id="slide-2">
-                <Charts :chartData="chartData" :result="result" v-if="chartOpen" :key="stockChartComponent"></Charts>
+                <Charts :chartData="stockChartData" :result="result" v-if="chartOpen" :key="stockChartComponent"></Charts>
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
 
           <SharesList class="sharesList" v-if="listData"
                       :listData="listData"
-                      :numberOfShares="numberOfShares"
+                      :numberOfShares="userShares"
                       :key="sharesListComponent">
           </SharesList>
 
@@ -62,6 +62,8 @@ import PieChart from '@/components/PieChart.vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 import SharesServices from '../../services/SharesServices.js'
+import UserServices from '../../services/UserServices.js'
+import StockchartServices from '../../services/StockchartServices.js'
 import SharesList from '@/components/SharesList.vue'
 import SearchBar from '@/components/SearchBar.vue'
 // import SharesListItem from '@/components/SharesListItem.vue';
@@ -70,14 +72,14 @@ export default {
   name: 'Home',
   data() {
     return {
-      numberOfShares: null,
-      id: null,
+      userShares: null,
+      userId: null,
       total: null,
-      latestValue: {},
+      latestSharesValue: {},
       componentLoaded: false,
       result: 0,
       chartOpen: false,
-      chartData: {},
+      stockChartData: {},
       pieChartData: {},
       pieData: false,
       listData: null,
@@ -97,14 +99,16 @@ export default {
     this.loadSharesData();
 
     eventBus.$on('selected-share', async newShare => {
-      const updatedShares = { ...newShare, ...this.databaseShares };
-      const { _id, ...shares } = updatedShares;
-      this.numberOfShares = shares;
-      this.databaseShares = await SharesServices.updateUserShares(_id, shares);
-      const result = await this.getHistoricSharesData(newShare);
-      this.prepareData(result, this.chartData);
-      const newListItem = await this.getQuoteSharesData(newShare);
-      const { 'Global Quote': globalQuote } = newListItem[0];
+      const updatedShares = { ...newShare, ...this.userShares };
+      this.userShares = updatedShares;
+      await UserServices.updateUserData(this.userId, updatedShares);
+      const historicData = await SharesServices.getHistoricSharesData(newShare);
+      const latestData = await SharesServices.getLatestSharesData(newShare);
+      await StockchartServices.prepareData(historicData, this.stockChartData, this.latestSharesValue);
+      await this.totalValue();
+      await this.preparePieChartData();
+      await this.openChart();
+      const { 'Global Quote': globalQuote } = latestData[0];
       this.listData.push(globalQuote);
       this.rerenderSharesList();
       this.rerenderPieChart();
@@ -112,7 +116,40 @@ export default {
     })
 
     eventBus.$on('removed-share', async removedShare => {
-      const { removedShare, ...otherShares } = this.numberOfShares;
+      this.removeShare(removedShare, this.userShares);
+      this.removeShare(removedShare, this.stockChartData);
+      this.removeShare(removedShare, this.pieChartData);
+
+      await UserServices.updateUserData(this.userId, this.userShares);
+      this.rerenderSharesList();
+      this.rerenderPieChart();
+      this.rerenderStockChart();
+
+
+
+      // const { [removedShare]: omitted, ...updatedShares } = this.userShares;
+      // this.userShares = updatedShares;
+      // const { [removedShare]: removedFromStockChart, ...otherStockChartShares } = this.stockChartData;
+      // const { [removedShare]: }
+      //
+      //
+      //
+      //
+      // this.preparePieChartData();
+      //
+      // await UserServices.updateUserData(this.userId, updatedShares);
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      // const updatedShares = Object.fromEntries(
+      //   Object.entries(this.userShares)
+      //   .filter(([key]) => ![removedShare, keys].includes(key))
+      // )
+      // console.log(updatedShares);
 
     })
 
@@ -120,8 +157,8 @@ export default {
   methods: {
     totalValue(){
       let total = 0
-      Object.keys(this.numberOfShares).forEach((share) => {
-        total += (this.numberOfShares[share] * this.latestValue[share]);
+      Object.keys(this.userShares).forEach((share) => {
+        total += (this.userShares[share] * this.latestSharesValue[share]);
         })
       return this.result = total ;
     },
@@ -134,68 +171,38 @@ export default {
     rerenderStockChart() {
       this.stockChartComponent += 1;
     },
+    removeShare(removedShare, sharesObject) {
+      const { [removedShare]: omitted, ...updatedShares } = sharesObject;
+      sharesObject = updatedShares
+    },
     async loadSharesData() {
-      const userData = await SharesServices.getUserData();
-      this.databaseShares = userData[0];
-      const { _id, ...shares } = userData[0];
-      this.numberOfShares = shares;
-      const results = await this.getHistoricSharesData(shares)
-      const quoteResults = await this.getQuoteSharesData(shares)
-      this.listData = quoteResults.map(({ 'Global Quote': globalQuote }) => globalQuote);
-      this.prepareData(results, this.chartData);
+      const userData = await UserServices.getData();
+      const { _id, ...userShares } = userData[0];
+      this.userId = _id;
+      this.userShares = userShares;
+      const historicData = await SharesServices.getHistoricSharesData(userShares);
+      const latestData = await SharesServices.getLatestSharesData(userShares);
+      this.listData = latestData.map(({ 'Global Quote': globalQuote }) => globalQuote);
+      await StockchartServices.prepareData(historicData, this.stockChartData, this.latestSharesValue);
+      await this.totalValue();
+      await this.preparePieChartData();
+      await this.openChart();
     },
     openChart(){
       return this.chartOpen = true;
     },
-    async getHistoricSharesData(shares) {
-      const sharePromises = await SharesServices.getSharesPromises(shares)
-      const results = await Promise.all(sharePromises);
-      return results;
-    },
-    async getQuoteSharesData(shares) {
-      const quotePromises = await SharesServices.getQuotePromises(shares)
-      const quoteResults = await Promise.all(quotePromises);
-      return quoteResults;
-
-      // this.listData = quoteResults.map(({ 'Global Quote': globalQuote }) => globalQuote)
-    },
-    prepareData(results, chartDataObject) {
-      results.map(resultObj => {
-        const {
-          '2. Symbol': shareName,
-          '3. Last Refreshed': lastRefreshed,
-        } = resultObj['Meta Data'];
-        const formatted = lastRefreshed.substring(0, 10);
-        chartDataObject[shareName] = {};
-        Object.entries(resultObj['Time Series (Daily)']).forEach(([date, info]) => {
-          chartDataObject[shareName][date] = Number(info['4. close']);
-          this.latestValue[shareName] = date === formatted ? Number(info['4. close']) : this.latestValue[shareName]
-
-          return chartDataObject
-        })
-      })
-      this.totalValue();
-      this.prearePieChartData();
-      this.openChart();
-    },
-    async getQuoteData(numberOfShares) {
-      const quotePromises = await SharesServices.getQuotePromises(numberOfShares);
-      const results = await Promise.all(quotePromises);
-
-    },
-
-    prearePieChartData(){
-      Object.keys(this.numberOfShares).forEach((share) => {
+    preparePieChartData(){
+      Object.keys(this.userShares).forEach((share) => {
 
         let newSeries = {
           name: share,
-          y: this.numberOfShares[share] * this.latestValue[share],
+          y: this.userShares[share] * this.latestSharesValue[share],
           color: this.pieChartColors.pop()
         }
         this.pieChartData[share] = newSeries;
       })
       this.pieData=true;
-    }
+      }
     },
   components: {
     Charts,

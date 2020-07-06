@@ -67,10 +67,12 @@ export default {
 
       return formattedNum > 0 ? "color:green" : "color:red";
     },
-    removeShare(share) {
-      let removedShare = share;
-      eventBus.$emit('removed-share', removedShare['01. symbol']);
-      // console.log(removedShare);
+    removeShare({ '01. symbol': removedShare }) {
+      const updatedList = this.listData.filter(listItem => listItem['01. symbol'] !== removedShare);
+      console.log('List Data: ', this.listData);
+      console.log('Updated List: ', updatedList);
+      this.listData = updatedList;
+      eventBus.$emit('removed-share', removedShare)
     }
   },
   mounted() {
