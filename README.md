@@ -1,5 +1,9 @@
 # client
 
+<!-- <p align="center"> -->
+  <image width="200px" src="https://github.com/alexgyllos/files/blob/master/seeSharesPreview.png" alt="seeShares preview">
+<!-- </p> -->
+
 ## Project setup
 ```
 npm install
