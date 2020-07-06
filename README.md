@@ -2,6 +2,7 @@
 
 <!-- <p align="center"> -->
   <image src="https://github.com/alexgyllos/files/blob/master/seeSharesPreview.png" alt="seeShares preview">
+  <image src="https://github.com/alexgyllos/files/blob/master/seeSharesPreview2.png" alt="seeShares preview 2">
 <!-- </p> -->
 
 ## Project setup
