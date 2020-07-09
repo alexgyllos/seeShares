@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {Chart} from 'highcharts-vue'
+import { Chart } from 'highcharts-vue'
 import Charts from '@/components/Charts.vue'
 import PieChart from '@/components/PieChart.vue'
 import moment from 'moment'
@@ -58,7 +58,6 @@ import UserServices from '../../services/UserServices.js'
 import StockchartServices from '../../services/StockchartServices.js'
 import SharesList from '@/components/SharesList.vue'
 import SearchBar from '@/components/SearchBar.vue'
-// import SharesListItem from '@/components/SharesListItem.vue';
 
 export default {
   name: 'Home',
@@ -75,7 +74,6 @@ export default {
       pieChartData: {},
       pieData: false,
       listData: null,
-      databaseShares: null,
       pieChartComponent: 0,
       stockChartComponent: 0,
       sharesListComponent: 0,
@@ -123,64 +121,7 @@ export default {
       const updatedList = this.listData.filter(listItem => listItem['01. symbol'] !== removedShare);
       this.listData = updatedList;
       this.rerenderSharesList();
-
-
-
-      // await UserServices.updateUserData(this.userId, this.userShares);
-
-      // const { [removedShare]: omitted, ...updatedShares } = this.userShares;
-      // this.userShares = updatedShares;
-      // await UserServices.updateUserData(this.userId, updatedShares);
-      //
-      // // this.removeShare(removedShare, this.stockChartData);
-      //
-      // const { [removedShare]: removed, ...updatedStockData } = this.stockChartData;
-      // this.stockChartData = updatedStockData;
-      //
-      // const { [removedShare]: deleted, ...updatedPieChartData } = this.pieChartData;
-      // this.pieChartData = updatedPieChartData;
-
-
-
-
-
-
-      // this.removeShare(removedShare, this.pieChartData);
-
-
-
-
-
-
-
-
-
-      // const historicData = await this.getSharesData(updatedShares);
-      // await StockchartServices.prepareData(historicData, this.stockChartData, this.latestSharesValue);
-      // await this.totalValue();
-      // await this.preparePieChartData();
-      // await this.openChart();
-      // this.rerenderSharesList();
-      // this.rerenderPieChart();
-      // this.rerenderStockChart();
-
-
-
-
-
-      // this.removeShare(removedShare, this.userShares);
-      // this.removeShare(removedShare, this.stockChartData);
-      // this.removeShare(removedShare, this.pieChartData);
-      // const updatedList = this.listData.filter(listItem => listItem['01. symbol'] !== removedShare);
-      // this.listData = updatedList;
-      //
-      // await UserServices.updateUserData(this.userId, this.userShares);
-      // this.rerenderSharesList();
-      // this.rerenderPieChart();
-      // this.rerenderStockChart();
-
     })
-
   },
   methods: {
     totalValue(){
@@ -258,10 +199,6 @@ export default {
   img {
     height: 50px;
     width: 50px;
-    /* display: inline-block; */
-    /* flex-direction: row; */
-    /* align-self: center; */
-    /* margin-top:  */
   }
 
   .logo {
@@ -283,15 +220,10 @@ export default {
   .navigation {
       display: flex;
       flex-direction: column;
-      /* align-self: baseline;
-      align-items: center;
-      align-content: center;
-      justify-content: center; */
-      /* height: 100vh; */
       margin-left: auto;
       margin-right: auto;
       padding: 0;
-      /* margin: 50px; */
+
   }
 
   .searchColumn {
@@ -301,7 +233,6 @@ export default {
     align-self: stretch;
     align-content: center;
     width: 30%;
-    /* background-color: grey; */
     border-left: 1px solid white;
 
   }
@@ -313,7 +244,6 @@ export default {
     align-items: center;
     align-content: center;
     align-self: center;
-    /* height: 100vh; */
     padding: 0;
     margin: 0;
   }
@@ -351,13 +281,11 @@ export default {
     font-weight: bold;
     user-select: none;
     transition: 0.2s;
-    /* margin: 10px; */
   }
 
   button:hover {
     font-style: italic;
     cursor: pointer;
-    /* background-color: rgb(36, 75, 105); */
   }
 
   .slider {
@@ -376,11 +304,6 @@ export default {
 
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-
-  /*
-  scroll-snap-points-x: repeat(300px);
-  scroll-snap-type: mandatory;
-  */
 }
 
 .slides::-webkit-scrollbar {
@@ -410,10 +333,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* font-size: 100px; */
 }
 .slides > div:target {
-  /* transform: scale(0.8); */
+
 }
 
 .slider > a {
@@ -437,7 +359,7 @@ export default {
 
 a {
   display: inline-flex;
-  /* width: 100%; */
+
   height: 100%;
   background: white;
   text-decoration: none;
@@ -449,12 +371,10 @@ a {
   margin: 0px 10px 10px 10px;
   padding: 10px;
   transition: 0.2s;
-  /* border: 1px solid white; */
 }
 
 a:hover {
   background: lightblue;
-  /* border: 1px solid white; */
 }
 
 a > img {

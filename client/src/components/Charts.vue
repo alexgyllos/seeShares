@@ -2,7 +2,6 @@
   <div class="">
 
     <div id='one-day-chart'>
-      <!-- <button type="button" name="button" v-on:click="showChart('Multi-Day Chart')">Multi-Day Chart</button> -->
     <highcharts :options='chart2' :constructor-type="'stockChart'" v-if="currentChart === 'Multi-Day Chart'"></highcharts>
 
 
@@ -14,7 +13,7 @@
 </template>
 
 <script>
-import {Chart} from 'highcharts-vue'
+import { Chart } from 'highcharts-vue'
 import moment from 'moment'
 import { eventBus } from '../main.js';
 
@@ -31,8 +30,6 @@ export default {
         backgroundColor: "rgba(256, 256, 256, 0)",
         style: {
           fontFamily: "Avenir, Helvetica, Arial, sans-serif",
-          // fontSize: "1.8em",
-          // fontWeight: "bold",
           color: "white",
           textAlign: 'center'
         }
@@ -49,7 +46,7 @@ export default {
         },
         yAxis: {
           title: {
-            // text: 'Price $',
+
             style: {
               fontFamily: "Avenir, Helvetica, Arial, sans-serif",
               fontSize: "1.8em",
@@ -62,7 +59,7 @@ export default {
         xAxis: {
           type: 'datetime',
           title: {
-            // text: 'Date',
+
             style: {
               fontFamily: "Avenir, Helvetica, Arial, sans-serif",
               fontSize: "1.8em",
@@ -128,7 +125,6 @@ export default {
           };
           this.chart2.series.push(newSeries);
         })
-        // this.highcharts.redraw();
       }
   }
 
@@ -138,6 +134,5 @@ export default {
 <style lang="css" scoped>
 
   #one-day-chart {
-    /* width: 800px; */
   }
 </style>

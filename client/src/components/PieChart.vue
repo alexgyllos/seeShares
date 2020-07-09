@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {Chart} from 'highcharts-vue'
+import { Chart } from 'highcharts-vue'
 
 export default {
   name: 'PieChart',
@@ -15,12 +15,6 @@ export default {
       pieChart: {
         chart: {
           backgroundColor: "rgba(256, 256, 256, 0)"
-          // plotBackgroundColor: "rgb(5, 5, 5)",
-        // plotBorderWidth: "2000px",
-        // plotShadow: true,
-        // borderColor: 'black',
-        // borderWidth: 5,
-
         },
         title: {
           text: `Total Value: $${this.result.toFixed(2)}`,
@@ -45,7 +39,6 @@ export default {
             stickOnContact: true,
             distance: -80
           },
-          // colorByPoint: true,
           type: 'pie',
           data: [
           ]
@@ -57,7 +50,6 @@ export default {
     Object.entries(this.pieChartData).forEach(([key, data]) => {
       this.pieChart.series[0].data.push(data);
     })
-    // this.Chart.redraw();
   },
   components: {
     Chart
@@ -68,12 +60,7 @@ export default {
 <style lang="css" scoped>
 
   #pieChart {
-    /* display: flex;
-    flex-direction: column;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    align-content: center; */
+
     margin-left: auto;
     margin-right: auto;
   }

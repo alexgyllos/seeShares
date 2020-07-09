@@ -1,24 +1,11 @@
 <template lang="html">
   <div class="">
     <div v-if="!selectedShare" class="searchResults">
-      <!-- <div class=""> -->
-
-        <!-- <div class="resultsSymbol">
-          <p v-for="result in searchResults">{{result['1. symbol']}}</p>
-        </div> -->
         <div class="resultsName">
           <p v-for="result in searchResults" v-on:click="select(result)">{{result['2. name']}} ({{result['1. symbol']}})
-            <!-- <button type="button" name="button" v-on:click="select(result)">Select</button> -->
           </p>
 
         </div>
-        <!-- <div class="inputs">
-          <input v-for="result in searchResults" type="number" min="0" name="numberOfShares" value="1" v-bind:value="numberOfShares">
-        </div> -->
-        <!-- <div class="buttons">
-          <button v-for="result in searchResults" type="button" v-on:click="select(result)">Select</button>
-        </div> -->
-      <!-- </div> -->
     </div>
     <div class="">
       <SelectedSearchResult v-if="selectedShare" :selectedShare="selectedShare"></SelectedSearchResult>
@@ -61,7 +48,6 @@ export default {
     align-items: center;
     align-content: center;
     align-self: center;
-    /* border: 1px solid black; */
     margin-top: 20px;
 
   }
@@ -73,7 +59,7 @@ export default {
   }
 
   .searchResults button {
-    /* padding: 5px; */
+
   }
 
   .resultsSymbol {
@@ -85,14 +71,14 @@ export default {
   .resultsSymbol p {
     margin: 0px;
     text-align: left;
-    /* border: 1px solid black; */
+
   }
 
   .resultsName {
     display: flex;
     flex-direction: column;
     margin-right: 10px;
-    /* margin-top: */
+
   }
 
   .resultsName p {
@@ -101,7 +87,7 @@ export default {
     font-weight: bold;
     font-size: 1em;
     text-align: center;
-    /* border: 1px solid black; */
+
     transition: 0.1s;
   }
 
@@ -111,14 +97,14 @@ export default {
   }
 
   .inputs input {
-    /* margin: 15.5px 0px; */
+
   }
 
   .inputs {
     display: flex;
     flex-direction: column;
     margin: 0px;
-    /* border: 1px solid black; */
+
 
   }
 
@@ -126,7 +112,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
-    /* border: 1px solid black; */
+
 
   }
 
@@ -136,15 +122,14 @@ export default {
     background: rgb(7, 37, 62);
     padding: 5px;
     border:1px solid white;
-    /* display: inline-block; */
-    /* vertical-align: middle; */
+
     text-align: center;
     color: white;
     font-size: 18px;
     font-weight: bold;
     user-select: none;
     transition: 0.2s;
-    /* margin-bottom: 1px; */
+
   }
 
   button:hover {

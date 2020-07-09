@@ -4,8 +4,6 @@
       <input v-model="searchTerm" v-on:keyup.enter="search">
       <button v-on:click="search">Search</button>
     </div>
-
-    <!-- <div v-if="!searchResults">Waiting...</div> -->
     <SearchResults v-if="searchResults" :searchResults="searchResults"></SearchResults>
   </div>
 
@@ -28,7 +26,6 @@ export default {
       const searchPromise = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${this.searchTerm}&apikey=4FZ7Q81SX3XU7T60`)
       const result = await searchPromise.json();
       this.searchResults = result['bestMatches'];
-      // console.log(result);
     }
   },
   components: {
@@ -47,10 +44,8 @@ export default {
     border:1px solid white;
     display: inline-block;
     vertical-align: middle;
-    /* text-align: center; */
     color: rgb(7, 37, 62);
     font-size: 18px;
-    /* font-weight: bold; */
     user-select: none;
     transition: 0.2s;
   }
@@ -74,15 +69,11 @@ export default {
   button:hover {
     font-style: italic;
     cursor: pointer;
-    /* background-color: rgb(36, 75, 105); */
   }
 
   .search {
     display: flex;
     flex-direction: column;
-    /* width: 35%; */
-    /* margin: 15px; */
-    /* border: 1px solid white; */
     margin-top: 80px;
   }
 
