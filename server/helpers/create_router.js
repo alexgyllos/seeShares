@@ -19,9 +19,9 @@ const createRouter = function(collection) {
   router.put('/:id', (req, res) => {
     const id = req.params.id;
     const update = req.body;
-    collection.findOneAndUpdate(
+    collection.findOneAndReplace(
       {_id: ObjectID(id)},
-      {$set: update},
+      update,
       {returnOriginal: false}
     )
     .then(result => res.json(result.value))
@@ -29,6 +29,8 @@ const createRouter = function(collection) {
 
   return router;
 };
+
+
 
 
 
