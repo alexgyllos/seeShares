@@ -68,14 +68,11 @@ export default {
 
       return formattedNum > 0 ? "color:green" : "color:red";
     },
-    removeShare(share) {
-      let removedShare = share;
-      eventBus.$emit('removed-share', removedShare);
-      // console.log(removedShare);
+    removeShare({ '01. symbol': removedShare }) {
+      eventBus.$emit('removed-share', removedShare)
     }
   },
   mounted() {
-
     this.listItemData = this.listData.map(dataObj => {
         const {
           '01. symbol': equity,
