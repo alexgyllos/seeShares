@@ -6,7 +6,6 @@
       </div>
       <div class="maintContainer">
           <div>
-          <!-- <p v-for="(shares, key) of numberOfShares" :key="key" :shares="shares">{{key}} {{shares}}</p> -->
 
           <br>
 
@@ -27,14 +26,7 @@
             </div>
           </div>
 
-
-          <!-- <button class="stockChartButton" type="button" name="button" v-on:click="openChart()">Stock Chart</button> -->
-
           <br>
-
-
-          <!-- <p v-if="totalValue">View Total Current Shares Value: ${{result}}</p> -->
-          <!-- <button type="button" name="button" v-on:click="totalValue()">View</button> -->
 
           <br>
 
@@ -102,8 +94,9 @@ export default {
       const updatedShares = { ...newShare, ...this.userShares };
       this.userShares = updatedShares;
       await UserServices.updateUserData(this.userId, updatedShares);
-      const historicData = await SharesServices.getHistoricSharesData(newShare);
-      const latestData = await SharesServices.getLatestSharesData(newShare);
+      const historicData = await SharesServices.getHistoricSharesData(userShares);
+      const latestData = await SharesServices.getLatestSharesData(userShares);
+      this.listData = latestData.map(({ 'Global Quote': globalQuote }) => globalQuote);
       await StockchartServices.prepareData(historicData, this.stockChartData, this.latestSharesValue);
       await this.totalValue();
       await this.preparePieChartData();
@@ -116,40 +109,75 @@ export default {
     })
 
     eventBus.$on('removed-share', async removedShare => {
-      this.removeShare(removedShare, this.userShares);
-      this.removeShare(removedShare, this.stockChartData);
-      this.removeShare(removedShare, this.pieChartData);
+      this.userShares = this.removeShare(removedShare, this.userShares);
+      console.log('User Shares: ', this.userShares);
+      const newShares = await UserServices.updateUserData(this.userId, this.userShares);
+      this.totalValue()
 
-      await UserServices.updateUserData(this.userId, this.userShares);
-      this.rerenderSharesList();
+      this.pieChartData = this.removeShare(removedShare, this.pieChartData);
       this.rerenderPieChart();
+
+      this.stockChartData = this.removeShare(removedShare, this.stockChartData);
       this.rerenderStockChart();
 
+      const updatedList = this.listData.filter(listItem => listItem['01. symbol'] !== removedShare);
+      this.listData = updatedList;
+      this.rerenderSharesList();
 
+
+
+      // await UserServices.updateUserData(this.userId, this.userShares);
 
       // const { [removedShare]: omitted, ...updatedShares } = this.userShares;
       // this.userShares = updatedShares;
-      // const { [removedShare]: removedFromStockChart, ...otherStockChartShares } = this.stockChartData;
-      // const { [removedShare]: }
-      //
-      //
-      //
-      //
-      // this.preparePieChartData();
-      //
       // await UserServices.updateUserData(this.userId, updatedShares);
       //
+      // // this.removeShare(removedShare, this.stockChartData);
       //
+      // const { [removedShare]: removed, ...updatedStockData } = this.stockChartData;
+      // this.stockChartData = updatedStockData;
       //
+      // const { [removedShare]: deleted, ...updatedPieChartData } = this.pieChartData;
+      // this.pieChartData = updatedPieChartData;
+
+
+
+
+
+
+      // this.removeShare(removedShare, this.pieChartData);
+
+
+
+
+
+
+
+
+
+      // const historicData = await this.getSharesData(updatedShares);
+      // await StockchartServices.prepareData(historicData, this.stockChartData, this.latestSharesValue);
+      // await this.totalValue();
+      // await this.preparePieChartData();
+      // await this.openChart();
+      // this.rerenderSharesList();
+      // this.rerenderPieChart();
+      // this.rerenderStockChart();
+
+
+
+
+
+      // this.removeShare(removedShare, this.userShares);
+      // this.removeShare(removedShare, this.stockChartData);
+      // this.removeShare(removedShare, this.pieChartData);
+      // const updatedList = this.listData.filter(listItem => listItem['01. symbol'] !== removedShare);
+      // this.listData = updatedList;
       //
-      //
-      //
-      //
-      // const updatedShares = Object.fromEntries(
-      //   Object.entries(this.userShares)
-      //   .filter(([key]) => ![removedShare, keys].includes(key))
-      // )
-      // console.log(updatedShares);
+      // await UserServices.updateUserData(this.userId, this.userShares);
+      // this.rerenderSharesList();
+      // this.rerenderPieChart();
+      // this.rerenderStockChart();
 
     })
 
@@ -171,9 +199,9 @@ export default {
     rerenderStockChart() {
       this.stockChartComponent += 1;
     },
-    removeShare(removedShare, sharesObject) {
-      const { [removedShare]: omitted, ...updatedShares } = sharesObject;
-      sharesObject = updatedShares
+    removeShare(removedShare, sharesData) {
+      const { [removedShare]: removed, ...updatedSharesData } = sharesData;
+      return updatedSharesData;
     },
     async loadSharesData() {
       const userData = await UserServices.getData();
